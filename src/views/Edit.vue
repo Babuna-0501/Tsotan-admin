@@ -160,7 +160,7 @@ import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 import ArgonTextArea from "@/components/ArgonTextarea.vue"
 
-import api from "../../../api/product"
+import api from "../../api/product"
 import s3 from "@/assets/s3config";
 
 const body = document.getElementsByTagName("body")[0];
