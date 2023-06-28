@@ -53,17 +53,17 @@
           </template>
         </sidenav-item>
       </li>
-      <!-- <li class="nav-item">
+      <li class="nav-item">
         <sidenav-item
-          url="/signin"
-          :class="getRoute() === 'signin' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'تسجيل الدخول' : 'Sign In'"
+          url="/order"
+          :class="getRoute() === 'order' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'تسجيل الدخول' : 'Order'"
         >
           <template v-slot:icon>
             <i class="ni ni-single-copy-04 text-danger text-sm opacity-10"></i>
           </template>
         </sidenav-item>
-      </li> -->
+      </li>
       <!-- <li class="nav-item">
         <sidenav-item
           url="/signup"

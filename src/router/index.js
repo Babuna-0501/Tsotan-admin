@@ -8,6 +8,7 @@ import Signin from "../views/Signin.vue";
 import Add from "../views/Add.vue";
 import Edit from "../views/Edit.vue";
 import CategoryAdd from "../views/CategoryAdd.vue";
+import Order from "../views/Order.vue";
 
 const routes = [
   {
@@ -59,6 +60,11 @@ const routes = [
     path: "/category",
     name: "categoryAdd",
     component: CategoryAdd,
+  },
+  {
+    path: "/order",
+    name: "order",
+    component: Order,
   },
 ];
 

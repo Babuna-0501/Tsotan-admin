@@ -19,7 +19,7 @@
     </div>
     <div class="container">
       <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
-        <div class="col-xl-8 col-lg-6 col-md-7 mx-auto">
+        <div class="col-xl-8 col-lg-6 col-md-7 mx-auto" style="margin-bottom: 100px;">
           <div class="card z-index-0">
             <div class="card-header text-center pt-4">
               <h5>Бараа засах</h5>
@@ -49,7 +49,8 @@
                 </div>
                 <div class="form-group">
                   <label for="Category">Category</label>
-                  <select class="form-control" v-model="selectedParentCategory"
+                  <div class="col-md-12 d-flex flex-row" style="gap: 5px;">
+                    <select class="form-control" v-model="selectedParentCategory"
                           @change="onSubChange">
 <!--                    <option value="">{{parentCategories.name}}</option>-->
                     <option v-for="item in parentCategories" :key="item.name">
@@ -57,7 +58,7 @@
                     </option>
                   </select>
 
-                  <select class="form-control mt-4" v-if="subcategories.length" v-model="selectedSubcategory"
+                  <select class="form-control" v-if="subcategories.length" v-model="selectedSubcategory"
                           @change="onCatChange">
 <!--                          :disabled="!selectedParentCategory">-->
 <!--                    <option value="">&#45;&#45; Select a Subcategory &#45;&#45;</option>-->
@@ -67,13 +68,15 @@
                   </select>
 
 
-                  <select class="form-control mt-4" v-if="categories.length" v-model="selectedCategory" @change="onCategoryChange">
+                  <select class="form-control" v-if="categories.length" v-model="selectedCategory" @change="onCategoryChange">
 <!--                          :disabled="!selectedSubcategory">-->
 <!--                    <option value="">&#45;&#45; Select a category &#45;&#45;</option>-->
                     <option v-for="item in categories" :key="item.name">
                       {{ item.name }}
                     </option>
                   </select>
+                  </div>
+           
 
 
                 </div>
@@ -83,35 +86,34 @@
                 </div>
                 <div class="additional row">
                   <div class="col-xl-6">
-                    <label for="Нэмэлт мэдээлэл">Нэмэлт мэдээлэл</label>
+                    <label for="Нэмэлт мэдээлэл">Барааны жин</label>
                     <argon-input
                       v-model:value="product.weight"
                       type="text"
-                      placeholder="Барааны жин"
                       aria-label="Weight"
                       @change="onWeightChange"/>
                   </div>
                   <div class="material col-xl-6">
+                      <label for="Нэмэлт мэдээлэл">Материал</label>
                       <argon-input
                       v-model:value="product.material"
                       type="text"
-                      placeholder="Материал"
                       aria-label="Weight"
                       @change="onMaterialChange"/>
                   </div>
                   <div class="col-xl-6">
+                      <label for="Нэмэлт мэдээлэл">Угаах заавар</label>
                       <argon-input
                       v-model:value="product.instruction"
                       type="text"
-                      placeholder="Угаах заавар"
                       aria-label="instruction"
                       @change="onInstructionChange"/>
                   </div>
                   <div class="col-xl-6">
+                    <label for="Нэмэлт мэдээлэл">Хэмжээ</label>
                     <argon-input
                       v-model:value="product.size"
                       type="text"
-                      placeholder="Хэмжээ"
                       aria-label="size"
                       @change="onSizeChange"/>
                   </div>
@@ -355,11 +357,3 @@ export default {
 
 </script>
 
-<style>
-@media screen and (min-width: 1200px) {
-  .material {
-    margin-top: 32px !important;
-  }
-}
-
-</style>
