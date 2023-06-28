@@ -85,7 +85,7 @@
               <td>
                 <div class="d-flex px-2 py-1">
                   <div>
-                    <img :src="getImg(product.img1)" style="width: 70%;"/>
+                    <img :src="getImg(product.img)" style="width: 70%;"/>
                   </div>
                 </div>
 

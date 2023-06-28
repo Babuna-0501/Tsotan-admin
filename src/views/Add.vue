@@ -214,6 +214,7 @@ export default {
         size: '',
         weight: '',
         material: '',
+        isSpecial: false
       },
       isLoading: false,
       // isClickable: false
@@ -335,7 +336,8 @@ export default {
         'instruction': this.product.instruction,
         'size': this.product.size,
         'weight': this.product.weight,
-        'material': this.product.material
+        'material': this.product.material,
+        'isSpecial': this.product.isSpecial
       }
 
       try {

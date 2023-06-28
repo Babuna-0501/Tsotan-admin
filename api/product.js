@@ -5,7 +5,7 @@ export default {
 
 
     async createProduct(data) {
-        return axios.post(`${url}/product/create-with-img`, data);
+        return axios.post(`${url}/product/create`, data);
         // return axios.post(`${url}/product/create-with-img`, data);
     },
 
