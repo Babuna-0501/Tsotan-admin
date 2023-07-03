@@ -51,90 +51,111 @@
                   <label for="Category">Category</label>
                   <div class="col-md-12 d-flex flex-row" style="gap: 5px;">
                     <select class="form-control" v-model="selectedParentCategory"
-                          @change="onSubChange">
-<!--                    <option value="">{{parentCategories.name}}</option>-->
-                    <option v-for="item in parentCategories" :key="item.name">
-                      {{ item.name }}
-                    </option>
-                  </select>
+                            @change="onSubChange">
+                      <!--                    <option value="">{{parentCategories.name}}</option>-->
+                      <option v-for="item in parentCategories" :key="item.name">
+                        {{ item.name }}
+                      </option>
+                    </select>
 
-                  <select class="form-control" v-if="subcategories.length" v-model="selectedSubcategory"
-                          @change="onCatChange">
-<!--                          :disabled="!selectedParentCategory">-->
-<!--                    <option value="">&#45;&#45; Select a Subcategory &#45;&#45;</option>-->
-                    <option v-for="item in subcategories" :key="item.name">
-                      {{ item.name }}
-                    </option>
-                  </select>
+                    <select class="form-control" v-if="subcategories.length" v-model="selectedSubcategory"
+                            @change="onCatChange">
+                      <!--                          :disabled="!selectedParentCategory">-->
+                      <!--                    <option value="">&#45;&#45; Select a Subcategory &#45;&#45;</option>-->
+                      <option v-for="item in subcategories" :key="item.name">
+                        {{ item.name }}
+                      </option>
+                    </select>
 
 
-                  <select class="form-control" v-if="categories.length" v-model="selectedCategory" @change="onCategoryChange">
-<!--                          :disabled="!selectedSubcategory">-->
-<!--                    <option value="">&#45;&#45; Select a category &#45;&#45;</option>-->
-                    <option v-for="item in categories" :key="item.name">
-                      {{ item.name }}
-                    </option>
-                  </select>
+                    <select class="form-control" v-if="categories.length" v-model="selectedCategory"
+                            @change="onCategoryChange">
+                      <!--                          :disabled="!selectedSubcategory">-->
+                      <!--                    <option value="">&#45;&#45; Select a category &#45;&#45;</option>-->
+                      <option v-for="item in categories" :key="item.name">
+                        {{ item.name }}
+                      </option>
+                    </select>
                   </div>
-           
 
 
                 </div>
                 <div class="col-xl-8 col-lg-6 col-md-7">
                   <label for="Desc">Description</label>
-                  <ArgonTextArea style="margin-top: -20px;" type="text" v-model:value="product.description" @change="onDescriptionChange"/>
+                  <ArgonTextArea style="margin-top: -20px;" type="text"
+                                 v-model:value="product.description"
+                                 :placeholder=product.description
+                                 @change="onDescriptionChange"/>
                 </div>
                 <div class="additional row">
                   <div class="col-xl-6">
                     <label for="Нэмэлт мэдээлэл">Барааны жин</label>
                     <argon-input
-                      v-model:value="product.weight"
-                      type="text"
-                      aria-label="Weight"
-                      @change="onWeightChange"/>
+                        v-model:value="product.weight"
+                        :placeholder=product.weight
+                        type="text"
+                        aria-label="Weight"
+                        @change="onWeightChange"/>
                   </div>
                   <div class="material col-xl-6">
-                      <label for="Нэмэлт мэдээлэл">Материал</label>
-                      <argon-input
-                      v-model:value="product.material"
-                      type="text"
-                      aria-label="Weight"
-                      @change="onMaterialChange"/>
+                    <label for="Нэмэлт мэдээлэл">Материал</label>
+                    <argon-input
+                        :placeholder="product.material"
+                        v-model:value="product.material"
+                        type="text"
+                        aria-label="Weight"
+                        @change="onMaterialChange"/>
                   </div>
                   <div class="col-xl-6">
-                      <label for="Нэмэлт мэдээлэл">Угаах заавар</label>
-                      <argon-input
-                      v-model:value="product.instruction"
-                      type="text"
-                      aria-label="instruction"
-                      @change="onInstructionChange"/>
+                    <label for="Нэмэлт мэдээлэл">Угаах заавар</label>
+                    <argon-input
+                        v-model:value="product.instruction"
+                        type="text"
+                        aria-label="instruction"
+                        :placeholder=product.instruction
+                        @change="onInstructionChange"/>
                   </div>
                   <div class="col-xl-6">
                     <label for="Нэмэлт мэдээлэл">Хэмжээ</label>
                     <argon-input
-                      v-model:value="product.size"
-                      type="text"
-                      aria-label="size"
-                      @change="onSizeChange"/>
+                        v-model:value="product.size"
+                        type="text"
+                        aria-label="size"
+                        :placeholder=product.size
+                        @change="onSizeChange"/>
                   </div>
                 </div>
                 <div class="row flex">
                   <label for="file">Зураг</label>
+
+                  <span>
+                    <img :src="product.image[0]" style="width: 200px" alt="image1"/>
+                  </span>
+                  <span>
+                    <img :src="product.image[1]" style="width: 200px" alt="image2"/>
+                  </span>
+
                   <div class="col-xl-6">
-                  <!--                                  TODO  : 4 image upliad hiih, img tag taviad product.image haruuulah -->
-                    <input id="image" type="file" ref="image" multiple @change="onImageChange"/>
+                    <input id="image" type="file" ref="image" multiple @change="onImageChange1"/>
+                  </div>
+
+
+                  <div class="col-xl-6">
+                    <input id="image" type="file" ref="image" multiple @change="onImageChange2"/>
+                  </div>
+
+                  <span>
+                    <img :src="product.image[2]" style="width: 200px" alt="image3"/>
+                  </span>
+                  <span>
+                    <img :src="product.image[3]" style="width: 200px" alt="image4"/>
+                  </span>
+
+                  <div class="col-xl-6">
+                    <input id="image" type="file" ref="image" multiple @change="onImageChange3"/>
                   </div>
                   <div class="col-xl-6">
-                  <!--                                  TODO  : 4 image upliad hiih, img tag taviad product.image haruuulah -->
-                    <input id="image" type="file" ref="image" multiple @change="onImageChange"/>
-                  </div>
-                  <div class="col-xl-6">
-                  <!--                                  TODO  : 4 image upliad hiih, img tag taviad product.image haruuulah -->
-                    <input id="image" type="file" ref="image" multiple @change="onImageChange"/>
-                  </div>
-                  <div class="col-xl-6">
-                  <!--                                  TODO  : 4 image upliad hiih, img tag taviad product.image haruuulah -->
-                    <input id="image" type="file" ref="image" multiple @change="onImageChange"/>
+                    <input id="image" type="file" ref="image" multiple @change="onImageChange4"/>
                   </div>
                 </div>
                 <div class="text-center">
@@ -144,7 +165,6 @@
                       color="dark"
                       variant="gradient"
                       class="my-4 mb-2"
-                      type="submit"
                   >Бараа нэмэх
                   </argon-button>
                 </div>
@@ -207,35 +227,41 @@ export default {
         categoryId: null,
         price: 0,
         name: '',
-        image1: '',
-        image2: '',
-        image3: '',
-        image4: '',
+        // img1: '',
+        // img2: '',
+        // img3: '',
+        // img4: '',
+        image: [],
         description: '',
         instruction: '',
         size: '',
         weight: '',
         material: '',
+        isSpecial: ''
       },
       isLoading: false,
       // isClickable: false
     };
   },
   computed: {
+    // computedImage3() {
+    //   return this.product.image[3];
+    // }
     // eslint-disable-next-line vue/return-in-computed-property
     // isClickable() {
     //   return (this.product.name && this.product.image1 && this.product.price && this.product.categoryId)
     // }
   },
+
   methods: {
 
     async fetchData() {
 
       try {
-        const response = await api.view(this.id);
+        const response = await api.detail(this.id);
         this.product = response.data;
-        console.log("Response: " + response);
-      } catch(error) {
+        console.log("product: " + response);
+      } catch (error) {
         console.log(error);
       }
 
@@ -255,7 +281,7 @@ export default {
       this.updateSub(sub.id);
     },
     async updateSub(id) {
-      console.log("cat id " +  id);
+      console.log("cat id " + id);
       const result = await api.getCategoriesByParent(id);
       this.subcategories = result.data;
     },
@@ -276,10 +302,40 @@ export default {
       const sub = this.categories.find(c => c.name === this.selectedCategory);
       if (sub) this.product.categoryId = sub.id;
     },
-    onImageChange(event) {
+    onImageChange1(event) {
       const file = event.target.files[0];
-      const fileName = Date.now().toString();
       const bucketName = 'tsotan';
+      const fileName = this.uploadPhoto(file, bucketName);
+      this.product.image[0] = "https://" + bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
+      console.log("img1 change: " + this.product.image[0])
+    },
+    onImageChange2(event) {
+      const file = event.target.files[0];
+      const bucketName = 'tsotan';
+      const fileName = this.uploadPhoto(file, bucketName);
+      this.product.image[1] = "https://" + bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
+      console.log("img2 change: " + this.product.image[1])
+    },
+
+    onImageChange3(event) {
+      const file = event.target.files[0];
+      const bucketName = 'tsotan';
+      const fileName = this.uploadPhoto(file, bucketName);
+      this.product.image[2] = "https://" + bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
+      console.log("img3 change: " + this.product.image[2])
+    },
+
+    onImageChange4(event) {
+      const file = event.target.files[0];
+      const bucketName = 'tsotan';
+      const fileName = this.uploadPhoto(file, bucketName);
+      this.product.image[3] = "https://" + bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
+      console.log("img4 change: " + this.product.image[3])
+    },
+
+
+    uploadPhoto(file, bucketName) {
+      const fileName = Date.now().toString();
       const params = {
         Bucket: bucketName,
         Key: fileName,
@@ -292,14 +348,15 @@ export default {
           console.log('Image uploaded successfully:', data);
         }
       });
-
-      this.product.image1 = "https://" + bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
+      return fileName;
 
     },
 
 
+
     onNameChange(event) {
       this.product.name = event.target.value;
+      console.log(this.product.name);
 
     },
     onPriceChange(event) {
@@ -324,10 +381,10 @@ export default {
     async submitForm() {
 
       const productDTO = {
-        'img1': this.product.image1,
-        'img2': this.product.image1,
-        'img3': this.product.image1,
-        'img4': this.product.image1,
+        'img1': this.product.image[0],
+        'img2': this.product.image[1],
+        'img3': this.product.image[2],
+        'img4': this.product.image[3],
         'name': this.product.name,
         'price': this.product.price,
         'categoryId': this.product.categoryId,
@@ -335,16 +392,16 @@ export default {
         'instruction': this.product.instruction,
         'size': this.product.size,
         'weight': this.product.weight,
-        'material': this.product.material
+        'material': this.product.material,
+        'isSpecial': this.product.isSpecial
       }
 
       try {
-        this.isLoading = true;
-        await api.createProduct(productDTO);
+        await api.updateProduct(this.id, productDTO);
       } catch (error) {
         console.log(error)
       }
-      this.isLoading = false;
+      // this.isLoading = false;
     },
     goToDestinationPage() {
       this.$router.push('/tables');

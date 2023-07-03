@@ -208,7 +208,6 @@ export default {
     },
 
     getImg(imgUrl) {
-      console.log(imgUrl)
       return imgUrl;
     },
     getEditUrl(id) {

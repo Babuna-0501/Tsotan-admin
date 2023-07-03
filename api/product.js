@@ -11,6 +11,7 @@ export default {
 
     async updateProduct(id, data) {
         // return axios.post(`${url}/product/update/${id}`, data,  {headers: {'Content-Type': 'multipart/form-data'}});
+        // console.log("update", id, data);
         return axios.post(`${url}/product/update/${id}`, data);
     },
 
@@ -24,6 +25,10 @@ export default {
 
     async view(id) {
         return axios.get(`${url}/product/view/${id}`);
+    },
+
+    async detail(id) {
+        return axios.get(`${url}/product/detail/${id}`);
     },
 
     async deleteProduct(id) {
