@@ -109,7 +109,17 @@
                 ><button class="edit_btn">Edit</button></a>
               </td>
               <td class="align-middle delete_prod">
-                <button class="dlt_btn" @click="deleteProduct(product.id) ">Delete</button>
+                <button class="dlt_btn"   @click="showPopup = true">Delete</button>
+                <div v-if="showPopup" class="popup">
+                  <div class="popup-content">
+                    <!-- Popup content goes here -->
+                    <h2>Барааг устгах уу?</h2>
+                    <div class="confirm">
+                      <button @click="deleteProduct(product.id), showPopup = false" >Устгах</button>
+                      <button @click="showPopup = false">Цуцлах</button>
+                    </div>
+                  </div>
+                </div>
               </td>
             </li>
           </tr>
@@ -140,7 +150,8 @@ export default {
       categories: [],
       selectedCategory: '',
       loading: true,
-      categoryId: 0
+      categoryId: 0,
+      showPopup: false
     }
   },
   mounted() {
@@ -265,5 +276,35 @@ export default {
   cursor: pointer;
   border-radius: 4px;
   transition: background-color 0.3s ease;
+}
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background-color: #fff;
+  padding: 20px;
+}
+.confirm {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.confirm button {
+  width: 100px;
+  border-radius: 5px;
+  border: none;
+  padding: 3px;
+  font-size: 16px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 </style>
