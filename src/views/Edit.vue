@@ -127,13 +127,15 @@
                 </div>
                 <div class="row flex">
                   <label for="file">Зураг</label>
-
-                  <span>
-                    <img :src="product.image[0]" style="width: 200px" alt="image1"/>
-                  </span>
-                  <span>
-                    <img :src="product.image[1]" style="width: 200px" alt="image2"/>
-                  </span>
+                  <div class="pic1">
+                    <span>
+                      <img :src="product.image[0]" style="width: 200px" alt="image1"/>
+                    </span>
+                    <span>
+                      <img :src="product.image[1]" style="width: 200px" alt="image2"/>
+                    </span>
+                  </div>
+              
 
                   <div class="col-xl-6">
                     <input id="image" type="file" ref="image" multiple @change="onImageChange1"/>
@@ -143,13 +145,15 @@
                   <div class="col-xl-6">
                     <input id="image" type="file" ref="image" multiple @change="onImageChange2"/>
                   </div>
-
-                  <span>
-                    <img :src="product.image[2]" style="width: 200px" alt="image3"/>
-                  </span>
-                  <span>
-                    <img :src="product.image[3]" style="width: 200px" alt="image4"/>
-                  </span>
+                  <div class="pic1">
+                    <span>
+                      <img :src="product.image[2]" style="width: 200px" alt="image3"/>
+                    </span>
+                    <span>
+                      <img :src="product.image[3]" style="width: 200px" alt="image4"/>
+                    </span>
+                  </div>
+               
 
                   <div class="col-xl-6">
                     <input id="image" type="file" ref="image" multiple @change="onImageChange3"/>
@@ -158,14 +162,14 @@
                     <input id="image" type="file" ref="image" multiple @change="onImageChange4"/>
                   </div>
                 </div>
-                <div class="text-center">
+                <div class="text-center" @click="goToDestinationPage">
                   <argon-button
                       @click="submitForm"
                       fullWidth
                       color="dark"
                       variant="gradient"
                       class="my-4 mb-2"
-                  >Бараа нэмэх
+                  >Бараа засах
                   </argon-button>
                 </div>
               </form>
@@ -414,3 +418,11 @@ export default {
 
 </script>
 
+<style>
+
+.pic1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+</style>
