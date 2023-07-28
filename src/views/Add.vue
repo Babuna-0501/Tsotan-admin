@@ -122,12 +122,18 @@
                 <div class="row flex">
                   <label for="file">Зураг</label>
 
-                  <span v-if="product.image1">
-                    <img :src="product.image1" style="width: 200px" alt="image1"/>
-                  </span>
-                  <span v-if="product.image2">
-                    <img :src="product.image2" style="width: 200px" alt="image2"/>
-                  </span>
+                  <div>
+                    <img v-for="(image, index) in product.image" :src="getImg(image)" :key="index" alt="image"/>
+                  </div>
+
+<!--                  <span v-if="product.image1">-->
+<!--                    <img :src="product.image1" style="width: 200px" alt="image1"/>-->
+<!--                  </span>-->
+<!--                  <span v-if="product.image2">-->
+<!--                    <img :src="product.image2" style="width: 200px" alt="image2"/>-->
+<!--                  </span>-->
+
+                  <div id="uploadedImagesContainer"></div>
 
                   <div class="col-xl-6">
                     <input id="image" type="file" ref="image" multiple @change="onImageChange1"/>
@@ -138,12 +144,12 @@
                     <input id="image" type="file" ref="image" multiple @change="onImageChange2"/>
                   </div>
 
-                  <span v-if="product.image3">
-                    <img :src="product.image3" style="width: 200px" alt="image3"/>
-                  </span>
-                  <span v-if="product.image4">
-                    <img :src="product.image4" style="width: 200px" alt="image4"/>
-                  </span>
+<!--                  <span v-if="product.image3">-->
+<!--                    <img :src="product.image3" style="width: 200px" alt="image3"/>-->
+<!--                  </span>-->
+<!--                  <span v-if="product.image4">-->
+<!--                    <img :src="product.image4" style="width: 200px" alt="image4"/>-->
+<!--                  </span>-->
 
                   <div class="col-xl-6">
                     <input id="image" type="file" ref="image" multiple @change="onImageChange3"/>
@@ -222,10 +228,7 @@ export default {
         categoryId: null,
         price: 0,
         name: '',
-        image1: '',
-        image2: '',
-        image3: '',
-        image4: '',
+        image: [],
         description: '',
         instruction: '',
         size: '',
@@ -233,6 +236,7 @@ export default {
         material: '',
         isSpecial: false
       },
+      bucketName: 'tsotanmn',
       isLoading: false,
       // isClickable: false
     };
@@ -240,13 +244,14 @@ export default {
   computed: {
     // eslint-disable-next-line vue/return-in-computed-property
     isClickable() {
-      return (this.product.name && this.product.image1 && this.product.image2 && this.product.image3 && this.product.image4 &&
+      return (this.product.name && this.product.image.length === 4 &&
           this.product.price && this.product.categoryId)
     }
   },
   methods: {
 
     getImg(imgUrl) {
+      console.log("getImg: " + imgUrl);
       return imgUrl;
     },
     async fetchParent(id) {
@@ -283,29 +288,26 @@ export default {
     },
     onImageChange1(event) {
       const file = event.target.files[0];
-      const bucketName = 'tsotan';
-      const fileName = this.uploadPhoto(file, bucketName);
-      this.product.image1 = "https://" + bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
+
+      const fileName = this.uploadPhoto(file, this.bucketName);
+      this.product.image[0] = "https://" + this.bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
     },
     onImageChange2(event) {
       const file = event.target.files[0];
-      const bucketName = 'tsotan';
-      const fileName = this.uploadPhoto(file, bucketName);
-      this.product.image2 = "https://" + bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
+      const fileName = this.uploadPhoto(file, this.bucketName);
+      this.product.image[1] = "https://" + this.bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
     },
 
     onImageChange3(event) {
       const file = event.target.files[0];
-      const bucketName = 'tsotan';
-      const fileName = this.uploadPhoto(file, bucketName);
-      this.product.image3 = "https://" + bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
+      const fileName = this.uploadPhoto(file, this.bucketName);
+      this.product.image[2] = "https://" + this.bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
     },
 
     onImageChange4(event) {
       const file = event.target.files[0];
-      const bucketName = 'tsotan';
-      const fileName = this.uploadPhoto(file, bucketName);
-      this.product.image4 = "https://" + bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
+      const fileName = this.uploadPhoto(file, this.bucketName);
+      this.product.image[3] = "https://" + this.bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
     },
 
 
@@ -326,25 +328,6 @@ export default {
       return fileName;
 
     },
-
-
-    // Олон зураг хадгалах функц ---------->
-
-    // onImageChange2(event) {
-
-    //     this.selectedFiles = Array.from(event.target.files);
-    // },
-
-    // Энэ бол Click event функц ---------->
-
-    // uploadImages() {
-    //     this.selectedFiles.forEach(file => {
-    //         const formData = new FormData();
-    //         formData.append('image', file);
-    //     });
-
-    //     this.selectedFiles = [];
-    // },
 
     onNameChange(event) {
       this.product.name = event.target.value;
@@ -371,10 +354,10 @@ export default {
     async submitForm() {
 
       const productDTO = {
-        'img1': this.product.image1,
-        'img2': this.product.image2,
-        'img3': this.product.image3,
-        'img4': this.product.image4,
+        'img1': this.product.image[0],
+        'img2': this.product.image[1],
+        'img3': this.product.image[2],
+        'img4': this.product.image[3],
         'name': this.product.name,
         'price': this.product.price,
         'categoryId': this.product.categoryId,
