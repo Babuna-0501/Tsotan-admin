@@ -262,6 +262,8 @@ export default {
       this.selectedParentCategory = event.target.value;
       this.subcategories = [];
       this.categories = [];
+      this.selectedSubcategory = null;
+      this.selectedCategory = null;
       const sub = this.parentCategories.find(c => c.name === this.selectedParentCategory);
       if (sub) this.product.categoryId = sub.id;
       this.updateSub(sub.id);
@@ -273,6 +275,7 @@ export default {
     onCatChange(event) {
       this.selectedSubcategory = event.target.value;
       this.categories = [];
+      this.selectedCategory = null;
       const sub = this.subcategories.find(c => c.name === this.selectedSubcategory);
       if (sub) this.product.categoryId = sub.id;
       this.updateCat(sub.id)
@@ -331,7 +334,6 @@ export default {
 
     onNameChange(event) {
       this.product.name = event.target.value;
-
     },
     onPriceChange(event) {
       this.product.price = event.target.value;

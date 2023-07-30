@@ -4,6 +4,11 @@ const url = "https://rest.tsotan.mn";
 export default {
 
 
+    async addCategory(data) {
+        return axios.post(`${url}/category/create`, data);
+        // return axios.post(`${url}/product/create-with-img`, data);
+    },
+
     async createProduct(data) {
         return axios.post(`${url}/product/create`, data);
         // return axios.post(`${url}/product/create-with-img`, data);
