@@ -11,7 +11,7 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-5 text-center mx-auto">
-            <h1 class="text-white mb-2 mt-5">Welcome!</h1>
+            <h1 class="text-white mb-2 mt-5">Тавтай морил!</h1>
             <p class="text-lead text-white">Tsotan</p>
           </div>
         </div>
@@ -30,24 +30,24 @@
                 <div class="form-group">
 
 
-                    <div style="display: flex; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 50px;">
                       <label for="Category">Үндсэн категори</label>
-                      <span style="margin-right: 10px;">
-                        <select class="form-control" v-model="selectedParentCategory" @change="onSubChange">
+                      <div style="margin-right: 10px;">
+                        <select class="form-control" v-model="selectedParentCategory"  @change="onSubChange">
                           <option v-for="item in parentCategories" :key="item.name">
                             {{ item.name }}
                           </option>
                         </select>
-                      </span>
+                      </div>
 
-                      <div v-if="!selectedParentCategory">
-                        <input type="text" v-model="add.name">
-                        <button @click="addCategory()">Save</button>
+                      <div  v-if="!selectedParentCategory">
+                        <input class="ctg-input" type="text" v-model="add.name">
+                        <button class="btn-ctg" @click="addCategory()">Хадгалах</button>
                       </div>
 
                     </div>
 
-                    <div  style="display: flex; align-items: center;">
+                    <div  style="display: flex; align-items: center; gap: 10px; margin-bottom: 50px;">
                       <label for="Category">Дэд категори 1 </label>
                       <div v-if="subcategories.length" style="margin-right: 10px;">
                         <select class="form-control" v-model="selectedSubcategory" @change="onCatChange">
@@ -58,13 +58,13 @@
                       </div>
 
                       <div v-if="selectedParentCategory && !selectedSubcategory">
-                        <input type="text" v-model="add.name">
-                        <button @click="addCategory()">Save</button>
+                        <input class="ctg-input" type="text" v-model="add.name">
+                        <button class="btn-ctg" @click="addCategory()">Хадгалах</button>
                       </div>
                     </div>
 
 
-                    <div  style="display: flex; align-items: center;">
+                    <div  style="display: flex; align-items: center; gap: 10px;">
                       <label for="Category">Дэд категори 2 </label>
 
 
@@ -78,8 +78,8 @@
 
 
                       <div v-if="selectedSubcategory && !selectedCategory">
-                        <input type="text" v-model="add.name">
-                        <button @click="addCategory()">Save</button>
+                        <input class="ctg-input" type="text" v-model="add.name">
+                        <button class="btn-ctg" @click="addCategory()">Хадгалах</button>
                       </div>
 
                     </div>
@@ -211,3 +211,41 @@ export default {
 
 
 </script>
+
+<style>
+.btn-ctg {
+  display: inline-block;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
+  margin-left: 10px;
+}
+
+.btn-ctg {
+  background-color: #3498db;
+  color: #ffffff;
+}
+
+.ctg-input {
+    width: 50%;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.4rem;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #d2d6da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.5rem;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+</style>
