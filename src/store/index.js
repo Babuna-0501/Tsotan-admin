@@ -16,7 +16,7 @@ export default createStore({
     showNavbar: true,
     showFooter: true,
     showMain: true,
-    layout: "default"
+    layout: "default",
   },
   mutations: {
     toggleConfigurator(state) {
@@ -44,12 +44,25 @@ export default createStore({
       } else {
         state.isNavFixed = false;
       }
-    }
+    },
   },
   actions: {
     toggleSidebarColor({ commit }, payload) {
       commit("sidebarType", payload);
-    }
+    },
   },
-  getters: {}
+  getters: {},
 });
+
+export const state = () => ({
+  token: null,
+});
+
+export const mutations = {
+  setToken(state, token) {
+    state.token = token;
+  },
+  clearToken(state) {
+    state.token = null;
+  },
+};

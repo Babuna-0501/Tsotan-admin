@@ -35,7 +35,7 @@
         </div>
         <ul class="navbar-nav justify-content-end">
           <li class="nav-item d-flex align-items-center">
-            <router-link
+            <!-- <router-link
               :to="{ name: 'Signin' }"
               class="px-0 nav-link font-weight-bold text-white"
               target="_blank"
@@ -48,7 +48,7 @@
                 >يسجل دخول</span
               >
               <span v-else class="d-sm-inline d-none">Sign In</span>
-            </router-link>
+            </router-link> -->
           </li>
           <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
             <a
@@ -68,6 +68,25 @@
             <a class="p-0 nav-link text-white" @click="toggleConfigurator">
               <i class="cursor-pointer fa fa-cog fixed-plugin-button-nav"></i>
             </a>
+          </li>
+          <li>
+            <button
+              style="
+                border-radius: 10px;
+                width: 100px;
+                margin-right: 20px;
+                border: none;
+                font-size: 14px;
+                padding: 10px;
+                background: #fff;
+                font-family: system-ui, -apple-system, BlinkMacSystemFont,
+                  'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+                  'Helvetica Neue', sans-serif;
+              "
+              @click="logout"
+            >
+              Гарах
+            </button>
           </li>
           <li
             class="nav-item dropdown d-flex align-items-center"
@@ -205,7 +224,7 @@ export default {
   name: "navbar",
   data() {
     return {
-      showMenu: false
+      showMenu: false,
     };
   },
   props: ["minNav", "textWhite"],
@@ -219,15 +238,22 @@ export default {
     toggleSidebar() {
       this.toggleSidebarColor("bg-white");
       this.navbarMinimize();
-    }
+    },
+    logout() {
+      localStorage.removeItem("user");
+      this.$router.push("/signin");
+    },
   },
   components: {
-    Breadcrumbs
+    Breadcrumbs,
   },
   computed: {
     currentRouteName() {
       return this.$route.name;
-    }
-  }
+    },
+    user() {
+      return JSON.parse(localStorage.getItem("user"));
+    },
+  },
 };
 </script>

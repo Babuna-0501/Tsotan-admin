@@ -14,7 +14,7 @@ const routes = [
   {
     path: "/",
     name: "/",
-    redirect: "/dashboard-default",
+    redirect: "/signin",
   },
   {
     path: "/dashboard-default",
@@ -69,7 +69,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(''),
+  history: createWebHistory(""),
   routes,
   linkActiveClass: "active",
 });
