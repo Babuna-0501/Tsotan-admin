@@ -17,7 +17,7 @@
                   <form role="form">
                     <div class="mb-3">
                       <argon-input
-                        v-model:value="username"
+                        v-model:value="email"
                         type="text"
                         placeholder="Нэр"
                         name="email"
@@ -92,6 +92,8 @@
 <script>
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
+
+import { mapActions } from "vuex";
 // import api from "@/assets/api/product";
 // import axios from "axios";
 const body = document.getElementsByTagName("body")[0];
@@ -119,7 +121,7 @@ export default {
 
   data() {
     return {
-      username: "",
+      email: "",
       password: "",
       loading: false,
     };
@@ -127,10 +129,14 @@ export default {
   mounted() {},
   methods: {
     onName(event) {
-      this.username = event.target.value;
+      this.email = event.target.value;
     },
     onPassword(event) {
       this.password = event.target.value;
+    },
+    ...mapActions("auth", ["login"]),
+    async login() {
+      await this.login({ email: this.email, password: this.password });
     },
     // async login() {
     //   this.loading = true;
@@ -165,17 +171,17 @@ export default {
     //   //     this.loading = false;
     //   //   });
     // },
-    login() {
-      if (this.username === "admin" && this.password === "TsotanUser2023") {
-        localStorage.setItem(
-          "user",
-          JSON.stringify({ username: this.username })
-        );
-        this.$router.push("/dashboard-default");
-      } else {
-        alert("Админы нэр, нууц үг буруу байна");
-      }
-    },
+    // login() {
+    //   if (this.username === "admin" && this.password === "TsotanUser2023") {
+    //     localStorage.setItem(
+    //       "user",
+    //       JSON.stringify({ username: this.username })
+    //     );
+    //     this.$router.push("/dashboard-default");
+    //   } else {
+    //     alert("Админы нэр, нууц үг буруу байна");
+    //   }
+    // },
   },
 };
 </script>

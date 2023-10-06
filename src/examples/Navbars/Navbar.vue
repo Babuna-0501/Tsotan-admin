@@ -69,6 +69,7 @@
               <i class="cursor-pointer fa fa-cog fixed-plugin-button-nav"></i>
             </a>
           </li>
+          <p v-if="isAuthenticated">{{ user.username }} -аар нэвтэрлээ</p>
           <li>
             <button
               style="
@@ -218,7 +219,7 @@
 </template>
 <script>
 import Breadcrumbs from "../Breadcrumbs.vue";
-import { mapMutations, mapActions } from "vuex";
+import { mapMutations, mapActions, mapGetters } from "vuex";
 
 export default {
   name: "navbar",
@@ -234,26 +235,24 @@ export default {
   methods: {
     ...mapMutations(["navbarMinimize", "toggleConfigurator"]),
     ...mapActions(["toggleSidebarColor"]),
+    ...mapActions("auth", ["logout"]),
 
     toggleSidebar() {
       this.toggleSidebarColor("bg-white");
       this.navbarMinimize();
-    },
-    logout() {
-      localStorage.removeItem("user");
-      this.$router.push("/signin");
     },
   },
   components: {
     Breadcrumbs,
   },
   computed: {
+    ...mapGetters("auth", ["isAuthenticated", "user"]),
     currentRouteName() {
       return this.$route.name;
     },
-    user() {
-      return JSON.parse(localStorage.getItem("user"));
-    },
+    // user() {
+    //   return JSON.parse(localStorage.getItem("user"));
+    // },
   },
 };
 </script>
