@@ -21,19 +21,19 @@ export default {
     },
 
     async getProductList(id) {
-        return axios.get(`${url}/product/list/${id}`);
+        return axios.get(`${url}/product/public/list/${id}`);
     },
 
     async login(data) {
-        return axios.post(`${url}/user/login`, data);
+        return axios.post(`${url}/auth/public/login`, data);
     },
 
     async view(id) {
-        return axios.get(`${url}/product/view/${id}`);
+        return axios.get(`${url}/product/public/view/${id}`);
     },
 
     async detail(id) {
-        return axios.get(`${url}/product/detail/${id}`);
+        return axios.get(`${url}/product/public/detail/${id}`);
     },
 
     async deleteProduct(id) {
@@ -41,11 +41,11 @@ export default {
     },
 
     async getCategories(){
-        return axios.get(`${url}/category/list-names`);
+        return axios.get(`${url}/category/public/list-names`);
     },
 
     async getCategoriesByParent(id){
-        return axios.get(`${url}/category/list/${id}`);
+        return axios.get(`${url}/category/public/list/${id}`);
     }
 
 };
