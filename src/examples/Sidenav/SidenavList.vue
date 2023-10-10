@@ -46,7 +46,7 @@
           :class="getRoute() === 'categoryAdd' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'حساب تعريفي' : 'Категори нэмэх'"
         >
-        <template v-slot:icon>
+          <template v-slot:icon>
             <i
               class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"
             ></i>
@@ -57,7 +57,7 @@
         <sidenav-item
           url="/order"
           :class="getRoute() === 'order' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'تسجيل الدخول' : 'Order'"
+          :navText="this.$store.state.isRTL ? 'تسجيل الدخول' : 'Захиалгын түүх'"
         >
           <template v-slot:icon>
             <i class="ni ni-single-copy-04 text-danger text-sm opacity-10"></i>
@@ -84,13 +84,13 @@ import SidenavItem from "./SidenavItem.vue";
 export default {
   name: "SidenavList",
   props: {
-    cardBg: String
+    cardBg: String,
   },
   data() {
     return {
       title: "Tsotan",
       controls: "dashboardsExamples",
-      isActive: "active"
+      isActive: "active",
     };
   },
   components: {
@@ -101,6 +101,6 @@ export default {
       const routeArr = this.$route.path.split("/");
       return routeArr[1];
     },
-  }
+  },
 };
 </script>
