@@ -8,111 +8,195 @@
       </div>
     </div>
     <div class="card-body pt-4 p-3">
-      <ul class="list-group">
-        <li
-          class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg"
-        >
-          <div class="d-flex align-items-center">
-            <argon-button
-              color="success"
-              variant="outline"
-              size="sm"
-              class="btn-icon-only btn-rounded mb-0 me-3 d-flex align-items-center justify-content-center"
-            >
-              <i class="fas fa-arrow-up" aria-hidden="true"></i>
-            </argon-button>
-            <div class="d-flex flex-column">
-              <h6 class="mb-1 text-dark text-sm">Netflix</h6>
-              <span class="text-xs">27 March 2020, at 12:30 PM</span>
-            </div>
-          </div>
-        </li>
-        <li
-          class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg"
-        >
-          <div class="d-flex align-items-center">
-            <argon-button
-              color="success"
-              variant="outline"
-              size="sm"
-              class="btn-icon-only btn-rounded mb-0 me-3 d-flex align-items-center justify-content-center"
-            >
-              <i class="fas fa-arrow-up" aria-hidden="true"></i>
-            </argon-button>
-            <div class="d-flex flex-column">
-              <h6 class="mb-1 text-dark text-sm">Apple</h6>
-              <span class="text-xs">27 March 2020, at 04:30 AM</span>
-            </div>
-          </div>
-        </li>
-      </ul>
-      <ul class="list-group">
-        <li
-          class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg"
-        >
-          <div class="d-flex align-items-center">
-            <argon-button
-              color="success"
-              variant="outline"
-              size="sm"
-              class="btn-icon-only btn-rounded mb-0 me-3 d-flex align-items-center justify-content-center"
-            >
-              <i class="fas fa-arrow-up" aria-hidden="true"></i>
-            </argon-button>
-            <div class="d-flex flex-column">
-              <h6 class="mb-1 text-dark text-sm">Stripe</h6>
-              <span class="text-xs">26 March 2020, at 13:45 PM</span>
-            </div>
-          </div>
-        </li>
-        <li
-          class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg"
-        >
-          <div class="d-flex align-items-center">
-            <argon-button
-              color="success"
-              variant="outline"
-              size="sm"
-              class="btn-icon-only btn-rounded mb-0 me-3 d-flex align-items-center justify-content-center"
-            >
-              <i class="fas fa-arrow-up" aria-hidden="true"></i>
-            </argon-button>
-            <div class="d-flex flex-column">
-              <h6 class="mb-1 text-dark text-sm">HubSpot</h6>
-              <span class="text-xs">26 March 2020, at 12:30 PM</span>
-            </div>
-          </div>
-        </li>
-        <li
-          class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg"
-        >
-          <div class="d-flex align-items-center">
-            <argon-button
-              color="success"
-              variant="outline"
-              size="sm"
-              class="btn-icon-only btn-rounded mb-0 me-3 d-flex align-items-center justify-content-center"
-            >
-              <i class="fas fa-arrow-up" aria-hidden="true"></i>
-            </argon-button>
-            <div class="d-flex flex-column">
-              <h6 class="mb-1 text-dark text-sm">Creative Tim</h6>
-              <span class="text-xs">26 March 2020, at 08:30 AM</span>
-            </div>
-          </div>
-        </li>
-      </ul>
+      <table class="mb-4">
+        <thead>
+          <tr>
+            <th>Захиалгын код</th>
+            <th>Он сар</th>
+            <th>Бүтээгдэхүүн</th>
+            <th>Тоо хэмжээ</th>
+            <th>Нийт</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="order in paginatedOrders" :key="order.id">
+            <td>{{ order.id }}</td>
+            <td>{{ order.date }}</td>
+            <td>{{ order.product }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>{{ order.total }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination">
+        <button @click="prevPage" :disabled="currentPage === 1">өмнөх</button>
+        <span>{{ currentPage }} / {{ totalPages }}</span>
+        <button @click="nextPage" :disabled="currentPage === totalPages">
+          дараах
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import ArgonButton from "@/components/ArgonButton.vue";
-
 export default {
-  name: "transaction-card",
-  components: {
-    ArgonButton,
+  data() {
+    return {
+      orders: [],
+      currentPage: 1,
+      itemsPerPage: 10,
+    };
+  },
+  computed: {
+    paginatedOrders() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.orders.slice(startIndex, endIndex);
+    },
+    totalPages() {
+      return Math.ceil(this.orders.length / this.itemsPerPage);
+    },
+  },
+  methods: {
+    fetchData() {
+      this.orders = [
+        {
+          id: 1,
+          date: "2023-10-01",
+          product: "Product A",
+          quantity: 3,
+          total: 150.0,
+        },
+        {
+          id: 2,
+          date: "2023-09-25",
+          product: "Product B",
+          quantity: 2,
+          total: 90.0,
+        },
+        {
+          id: 3,
+          date: "2023-09-20",
+          product: "Product C",
+          quantity: 1,
+          total: 30.0,
+        },
+        {
+          id: 4,
+          date: "2023-09-20",
+          product: "Product C",
+          quantity: 1,
+          total: 30.0,
+        },
+        {
+          id: 5,
+          date: "2023-09-20",
+          product: "Product C",
+          quantity: 1,
+          total: 30.0,
+        },
+        {
+          id: 6,
+          date: "2023-09-20",
+          product: "Product C",
+          quantity: 1,
+          total: 30.0,
+        },
+        {
+          id: 7,
+          date: "2023-09-20",
+          product: "Product C",
+          quantity: 1,
+          total: 30.0,
+        },
+        {
+          id: 8,
+          date: "2023-09-20",
+          product: "Product C",
+          quantity: 1,
+          total: 30.0,
+        },
+        {
+          id: 9,
+          date: "2023-09-20",
+          product: "Product C",
+          quantity: 1,
+          total: 30.0,
+        },
+        {
+          id: 10,
+          date: "2023-09-20",
+          product: "Product C",
+          quantity: 1,
+          total: 30.0,
+        },
+        {
+          id: 11,
+          date: "2023-09-20",
+          product: "Product C",
+          quantity: 1,
+          total: 30.0,
+        },
+        {
+          id: 12,
+          date: "2023-09-20",
+          product: "Product C",
+          quantity: 1,
+          total: 30.0,
+        },
+      ];
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    },
+  },
+  mounted() {
+    this.fetchData();
   },
 };
 </script>
+<style scoped>
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.pagination {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.pagination button {
+  padding: 5px 10px;
+  margin: 0 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+.pagination button[disabled] {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+</style>
