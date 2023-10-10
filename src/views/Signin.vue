@@ -17,7 +17,7 @@
                   <form role="form">
                     <div class="mb-3">
                       <argon-input
-                        v-model:value="email"
+                        v-model:value="username"
                         type="text"
                         placeholder="Нэр"
                         name="email"
@@ -44,21 +44,12 @@
                         color="success"
                         fullWidth
                         size="lg"
-                        @click="login"
+                        @click.prevent="login"
                         >Нэвтрэх</argon-button
                       >
                     </div>
                   </form>
                 </div>
-                <!-- <div class="px-1 pt-0 text-center card-footer px-lg-2">
-                  <p class="mx-auto mb-4 text-sm">
-                    Don't have an account?
-                    <a
-                      href="javascript:;"
-                      class="text-success text-gradient font-weight-bold"
-                    >Sign up</a>
-                  </p>
-                </div> -->
               </div>
             </div>
             <div
@@ -93,7 +84,8 @@
 import ArgonInput from "@/components/ArgonInput.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
 
-import { mapActions } from "vuex";
+// import { mapActions } from "vuex";
+import axios from "axios";
 // import api from "@/assets/api/product";
 // import axios from "axios";
 const body = document.getElementsByTagName("body")[0];
@@ -121,7 +113,7 @@ export default {
 
   data() {
     return {
-      email: "",
+      username: "",
       password: "",
       loading: false,
     };
@@ -129,59 +121,33 @@ export default {
   mounted() {},
   methods: {
     onName(event) {
-      this.email = event.target.value;
+      this.username = event.target.value;
     },
     onPassword(event) {
       this.password = event.target.value;
     },
-    ...mapActions("auth", ["login"]),
     async login() {
-      await this.login({ email: this.email, password: this.password });
+      console.log("login is called")
+      this.loading = true;
+
+      const data = {username: this.username, password: this.password};
+
+      try {
+        const res = await axios.post("https://rest.tsotan.mn/auth/public/login", data);
+        console.log("res: " + res.data);
+
+        if (res.status === 200) {
+          await this.$router.push("/dashboard-default");
+        } else {
+          console.error("Login failed");
+        }
+        this.loading = false;
+      } catch (e) {
+        console.error(e);
+        this.loading = false;
+      }
+
     },
-    // async login() {
-    //   this.loading = true;
-
-    //   // const headers = { 'Authorization': 'Bearer <token>', 'Content-Type': 'application/json' };
-    //   // const headers = { 'Content-Type': 'application/json' };
-
-    //   // const data = { userName: this.username, password: this.password };
-
-    //   // try {
-    //   //    const res = await api.login(data);
-    //   //    console.log("res: " + res.data);
-    //   //    this.loading=false
-    //   // } catch (e) {
-    //   //     console.error(e);
-    //   //     this.loading=false
-    //   // }
-
-    //   // axios
-    //   //   .post(`https://api.tsotan.mn/user/login`, data)
-    //   //   .then((response) => {
-    //   //     console.log("response: " + response.data);
-
-    //   //     if (response.data === true) {
-    //   //       this.$router.push("/dashboard-default");
-    //   //     }
-
-    //   //     this.loading = false;
-    //   //   })
-    //   //   .catch((error) => {
-    //   //     console.log(error);
-    //   //     this.loading = false;
-    //   //   });
-    // },
-    // login() {
-    //   if (this.username === "admin" && this.password === "TsotanUser2023") {
-    //     localStorage.setItem(
-    //       "user",
-    //       JSON.stringify({ username: this.username })
-    //     );
-    //     this.$router.push("/dashboard-default");
-    //   } else {
-    //     alert("Админы нэр, нууц үг буруу байна");
-    //   }
-    // },
-  },
+  }
 };
 </script>
