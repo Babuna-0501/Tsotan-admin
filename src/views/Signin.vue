@@ -134,7 +134,10 @@ export default {
 
       try {
         const res = await axios.post("https://rest.tsotan.mn/auth/public/login", data);
-        console.log("res: " + res.data);
+
+        const token = res.data;
+
+        localStorage.setItem('jwtToken', token);
 
         if (res.status === 200) {
           await this.$router.push("/dashboard-default");

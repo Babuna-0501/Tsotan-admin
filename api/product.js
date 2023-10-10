@@ -1,23 +1,39 @@
 import axios from 'axios';
 
 const url = "https://rest.tsotan.mn";
+const token = localStorage.getItem('jwtToken');
 export default {
 
 
     async addCategory(data) {
-        return axios.post(`${url}/category/create`, data);
-        // return axios.post(`${url}/product/create-with-img`, data);
+
+      return axios.post(`${url}/category/create`, data, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
+
+        // return axios.post(`${url}/category/create`, data);
+
     },
 
     async createProduct(data) {
-        return axios.post(`${url}/product/create`, data);
+        return axios.post(`${url}/product/create`, data, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
         // return axios.post(`${url}/product/create-with-img`, data);
     },
 
     async updateProduct(id, data) {
         // return axios.post(`${url}/product/update/${id}`, data,  {headers: {'Content-Type': 'multipart/form-data'}});
         // console.log("update", id, data);
-        return axios.post(`${url}/product/update/${id}`, data);
+        return axios.post(`${url}/product/update/${id}`, data, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
     },
 
     async getProductList(id) {
@@ -37,7 +53,11 @@ export default {
     },
 
     async deleteProduct(id) {
-        return axios.delete(`${url}/product/delete/${id}`);
+        return axios.delete(`${url}/product/delete/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        });
     },
 
     async getCategories(){
