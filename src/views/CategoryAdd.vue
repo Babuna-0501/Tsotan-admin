@@ -42,7 +42,7 @@
 
                       <div  v-if="!selectedParentCategory">
                         <input class="ctg-input" type="text" v-model="add.name">
-                        <button class="btn-ctg" @click="addCategory()">Хадгалах</button>
+                        <button class="btn-ctg" @click.prevent="addCategory()">Хадгалах</button>
                       </div>
 
                     </div>
@@ -59,7 +59,7 @@
 
                       <div v-if="selectedParentCategory && !selectedSubcategory">
                         <input class="ctg-input" type="text" v-model="add.name">
-                        <button class="btn-ctg" @click="addCategory()">Хадгалах</button>
+                        <button class="btn-ctg" @click.prevent="addCategory()">Хадгалах</button>
                       </div>
                     </div>
 
@@ -79,7 +79,7 @@
 
                       <div v-if="selectedSubcategory && !selectedCategory">
                         <input class="ctg-input" type="text" v-model="add.name">
-                        <button class="btn-ctg" @click="addCategory()">Хадгалах</button>
+                        <button class="btn-ctg" @clickв.prevent="addCategory()">Хадгалах</button>
                       </div>
 
                     </div>

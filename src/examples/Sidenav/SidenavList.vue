@@ -6,6 +6,7 @@
     <ul class="navbar-nav">
       <li class="nav-item">
         <sidenav-item
+            v-if="checkPermission()"
           url="/dashboard-default"
           :class="getRoute() === 'dashboard-default' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'لوحة القيادة' : 'Dashboard'"
@@ -17,6 +18,7 @@
       </li>
       <li class="nav-item">
         <sidenav-item
+            v-if="checkPermission()"
           url="/tables"
           :class="getRoute() === 'tables' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'الجداول' : 'Барааны жагсаалт'"
@@ -30,6 +32,7 @@
       </li>
       <li class="nav-item">
         <sidenav-item
+            v-if="checkPermission()"
           url="/add"
           :class="getRoute() === 'add' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'الفواتیر' : 'Бараа нэмэх'"
@@ -42,6 +45,7 @@
       </li>
       <li class="nav-item">
         <sidenav-item
+            v-if="checkPermission()"
           url="/category"
           :class="getRoute() === 'categoryAdd' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'حساب تعريفي' : 'Категори нэмэх'"
@@ -55,6 +59,7 @@
       </li>
       <li class="nav-item">
         <sidenav-item
+            v-if="checkPermission()"
           url="/order"
           :class="getRoute() === 'order' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'تسجيل الدخول' : 'Захиалгын түүх'"
@@ -100,6 +105,35 @@ export default {
     getRoute() {
       const routeArr = this.$route.path.split("/");
       return routeArr[1];
+    },
+
+    checkPermission() {
+      const token = localStorage.getItem("jwtToken");
+      if (token) {
+        const decodedToken = this.decodeToken(token);
+        if (
+            decodedToken &&
+            (decodedToken.roles.includes("ADMIN") || decodedToken.roles.includes("USER"))
+        ) {
+          return true;
+        } else {
+          this.$router.push("/signin");
+          return false;
+        }
+      }
+      this.$router.push("/signin");
+      return false;
+    },
+    decodeToken(token) {
+      try {
+        const base64Url = token.split(".")[1];
+        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+        const decoded = atob(base64);
+        return JSON.parse(decoded);
+      } catch (error) {
+        console.error("Error decoding token:", error);
+        return null;
+      }
     },
   },
 };

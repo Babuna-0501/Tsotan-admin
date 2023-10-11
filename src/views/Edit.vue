@@ -164,7 +164,7 @@
                 </div>
                 <div class="text-center" @click="goToDestinationPage">
                   <argon-button
-                      @click="submitForm"
+                      @click.prevent="submitForm"
                       fullWidth
                       color="dark"
                       variant="gradient"
