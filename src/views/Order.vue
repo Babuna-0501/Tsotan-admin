@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-md-5">
+        <div>
           <transaction-card />
         </div>
       </div>
