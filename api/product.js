@@ -23,6 +23,7 @@ export default {
         return axios.post(`${url}/product/create`, data, {
             headers: {
                 'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
             },
         });
         // return axios.post(`${url}/product/create-with-img`, data);
@@ -35,6 +36,7 @@ export default {
         return axios.post(`${url}/product/update/${id}`, data, {
             headers: {
                 'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
             },
         });
     },
@@ -63,6 +65,7 @@ export default {
         return axios.delete(`${url}/product/delete/${id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
             },
         });
     },
