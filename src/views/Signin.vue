@@ -133,7 +133,7 @@ export default {
       const data = {username: this.username, password: this.password};
 
       try {
-        const res = await axios.post("http://rest.tsotan.mn/auth/login", data);
+        const res = await axios.post("https://rest.tsotan.mn/auth/login", data);
 
         const token = res.data;
 
