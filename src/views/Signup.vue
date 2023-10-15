@@ -26,32 +26,19 @@
             </div>
             <div class="card-body">
               <form role="form">
-                <argon-input type="text" placeholder="Name" aria-label="Name" />
-                <!-- <argon-input
-                  type="email"
-                  placeholder="Email"
-                  aria-label="Email"
-                /> -->
-                <argon-input
-                  type="password"
-                  placeholder="Password"
-                  aria-label="Password"
-                />
-                <!-- <argon-checkbox checked>
-                  <label class="form-check-label" for="flexCheckDefault">
-                   Та
-                    <a href="javascript:;" class="text-dark font-weight-bolder"
-                      >Terms and Conditions</a
-                    >
-                  </label>
-                </argon-checkbox> -->
+                <argon-input type="text" placeholder="Нэвтрэх нэр" v-model:value="username" @change="onNameChange"/>
+                <argon-input type="text" placeholder="Имэйл" v-model:value="email" @change="onMailChange" />
+                <argon-input type="password" placeholder="Нууц үг" v-model:value="password" @change="onPassChange"/>
+                <select class="form-control" v-if="roles.length" v-model="role" @change="onRoleChange()">
+                  <option v-for="item in roles" :key="item"> {{ item }}</option>
+                </select>
                 <div class="text-center">
                   <argon-button
                     fullWidth
                     color="dark"
                     variant="gradient"
                     class="my-4 mb-2"
-                    @click="signUp"
+                    @click.prevent="signUp()"
                     >Бүртгэх</argon-button
                   >
                 </div>
@@ -74,12 +61,14 @@
 <script>
 import AppFooter from "@/examples/PageLayout/Footer.vue";
 import ArgonInput from "@/components/ArgonInput.vue";
+// import api from "../api/product"
 // import ArgonCheckbox from "@/components/ArgonCheckbox.vue";
 import ArgonButton from "@/components/ArgonButton.vue";
+import axios from "axios";
 const body = document.getElementsByTagName("body")[0];
 
 export default {
-  name: "signin",
+  name: "signup",
   components: {
     AppFooter,
     ArgonInput,
@@ -100,18 +89,40 @@ export default {
   },
   data() {
     return {
-      Name: "",
-      Password: "",
+      username: "",
+      password: "",
+      email:"",
+      role:"USER",
+      roles: ["ADMIN", "USER"],
       isRegistered: false,
     };
   },
   methods: {
-    signUp() {
-      if (this.Name && this.Password) {
-        this.isRegistered = true;
-        alert("Хэрэглэгч нэмэгдлээ");
-      } else {
-        alert("Алдаа гарлаа");
+    onRoleChange(event) {
+      this.role = event.target.value;
+    },
+    onNameChange(event) {
+      this.username = event.target.value;
+    },
+    onPassChange(event) {
+      this.password = event.target.value;
+    },
+    onMailChange(event) {
+      this.email = event.target.value;
+    },
+
+    async signUp() {
+      console.log(this.username);
+      if (this.username && this.password && this.email) {
+        try {
+           const data = {username: this.username, password: this.password, role: this.role, email: this.email};
+           await axios.post('https://rest.tsotan.mn/user/create', data);
+          // await api.createUser({username: this.username, password: this.password, role: this.role, email: this.email});
+          alert("Хэрэглэгч амжилттай үүсгэлээ.");
+        } catch (error) {
+          alert("Хэрэглэгч бүртгэхэд алдаа гарлаа.")
+          console.log(error)
+        }
       }
     },
   },

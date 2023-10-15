@@ -159,10 +159,10 @@
                   </div>
                 </div>
 
-                <div class="text-center" @click="goToDestinationPage">
+                <div class="text-center" @click.prevent="goToDestinationPage">
                   <argon-button
                       v-if="isClickable"
-                      @click="submitForm"
+                      @click.prevent="submitForm"
                       fullWidth
                       color="dark"
                       variant="gradient"

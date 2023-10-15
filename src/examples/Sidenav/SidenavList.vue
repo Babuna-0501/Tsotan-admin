@@ -6,7 +6,6 @@
     <ul class="navbar-nav">
       <li class="nav-item">
         <sidenav-item
-            v-if="checkPermission()"
           url="/dashboard-default"
           :class="getRoute() === 'dashboard-default' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'لوحة القيادة' : 'Dashboard'"
@@ -18,7 +17,6 @@
       </li>
       <li class="nav-item">
         <sidenav-item
-            v-if="checkPermission()"
           url="/tables"
           :class="getRoute() === 'tables' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'الجداول' : 'Барааны жагсаалт'"
@@ -32,7 +30,6 @@
       </li>
       <li class="nav-item">
         <sidenav-item
-            v-if="checkPermission()"
           url="/add"
           :class="getRoute() === 'add' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'الفواتیر' : 'Бараа нэмэх'"
@@ -45,7 +42,6 @@
       </li>
       <li class="nav-item">
         <sidenav-item
-            v-if="checkPermission()"
           url="/category"
           :class="getRoute() === 'categoryAdd' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'حساب تعريفي' : 'Категори нэмэх'"
@@ -59,7 +55,6 @@
       </li>
       <li class="nav-item">
         <sidenav-item
-            v-if="checkPermission()"
           url="/order"
           :class="getRoute() === 'order' ? 'active' : ''"
           :navText="this.$store.state.isRTL ? 'تسجيل الدخول' : 'Захиалгын түүх'"
@@ -100,6 +95,9 @@ export default {
   },
   components: {
     SidenavItem,
+  },
+  mounted() {
+    // this.checkPermission();
   },
   methods: {
     getRoute() {

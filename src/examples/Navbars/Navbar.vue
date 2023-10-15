@@ -84,7 +84,7 @@
                   'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
                   'Helvetica Neue', sans-serif;
               "
-              @click="logout"
+              @click.prevent="logout()"
             >
               Гарах
             </button>
@@ -235,11 +235,20 @@ export default {
   methods: {
     ...mapMutations(["navbarMinimize", "toggleConfigurator"]),
     ...mapActions(["toggleSidebarColor"]),
-    ...mapActions("auth", ["logout"]),
+    // ...mapActions("auth", ["logout"]),
 
     toggleSidebar() {
       this.toggleSidebarColor("bg-white");
       this.navbarMinimize();
+    },
+    logout() {
+      console.log("logout is called")
+
+      // Remove the "jwtToken" from localStorage
+      localStorage.removeItem("jwtToken");
+      console.log(localStorage.getItem("jwtToken"))
+      this.$router.push("/signin");
+
     },
   },
   components: {

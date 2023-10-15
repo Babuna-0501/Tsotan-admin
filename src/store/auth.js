@@ -24,6 +24,9 @@ const actions = {
   },
   logout({ commit }) {
     commit("clearUser");
+    // Remove the "jwtToken" from localStorage
+    localStorage.removeItem("jwtToken");
+
   },
 };
 
