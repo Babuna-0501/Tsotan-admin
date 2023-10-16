@@ -75,6 +75,17 @@
           </template>
         </sidenav-item>
       </li>
+      <li class="nav-item">
+        <sidenav-item
+          url="/users"
+          :class="getRoute() === 'users' ? 'active' : ''"
+          :navText="this.$store.state.isRTL ? 'اشتراك' : 'Хэрэглэгчид'"
+        >
+          <template v-slot:icon>
+            <i class="ni ni-collection text-info text-sm opacity-10"></i>
+          </template>
+        </sidenav-item>
+      </li>
     </ul>
   </div>
 </template>

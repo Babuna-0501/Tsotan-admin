@@ -9,6 +9,7 @@ import Add from "../views/Add.vue";
 import Edit from "../views/Edit.vue";
 import CategoryAdd from "../views/CategoryAdd.vue";
 import Order from "../views/Order.vue";
+import Users from "../views/components/UserList.vue";
 
 function decodeToken(token) {
   try {
@@ -77,6 +78,11 @@ const routes = [
     path: "/order",
     name: "order",
     component: Order,
+  },
+  {
+    path: "/users",
+    name: "users",
+    component: Users,
   },
 ];
 
