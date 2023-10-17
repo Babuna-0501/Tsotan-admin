@@ -118,33 +118,20 @@
                   >
                 </td>
                 <td class="align-middle delete_prod">
-                  <button class="dlt_btn" @click="showPopup = true">
+                  <button class="dlt_btn" @click="showDeletePopup(product.id)">
                     Delete
                   </button>
-                  <div
-                    v-if="showPopup"
-                    class="popup"
-                    style="background-color: unset"
-                  >
+                  <div v-if="showPopup === product.id" class="popup" style="background-color: unset">
                     <div
-                      class="popup-content"
-                      style="
-                        background-color: #ddd;
-                        padding: 50px;
-                        border-radius: 25px;
-                      "
+                        class="popup-content"
+                        style="background-color: #ddd; padding: 50px; border-radius: 25px;"
                     >
-                      <!-- Popup content goes here -->
                       <h2>Барааг устгах уу?</h2>
                       <div class="confirm">
-                        <button
-                          @click="
-                            deleteProduct(product.id), (showPopup = false)
-                          "
-                        >
+                        <button @click="deleteProduct(product.id); closePopup()">
                           Устгах
                         </button>
-                        <button @click="showPopup = false">Цуцлах</button>
+                        <button @click="closePopup()">Цуцлах</button>
                       </div>
                     </div>
                   </div>
@@ -236,7 +223,8 @@ export default {
 
     async deleteProduct(id) {
       try {
-        await api.deleteProduct(id);
+        console.log("Delete ", id);
+        // await api.deleteProduct(id);
         await this.fetchData();
       } catch (error) {
         console.log(error);
@@ -248,6 +236,12 @@ export default {
     },
     getEditUrl(id) {
       return "../edit/" + id;
+    },
+    showDeletePopup(productId) {
+      this.showPopup = productId;
+    },
+    closePopup() {
+      this.showPopup = null;
     },
   },
 };
