@@ -223,8 +223,7 @@ export default {
 
     async deleteProduct(id) {
       try {
-        console.log("Delete ", id);
-        // await api.deleteProduct(id);
+        await api.deleteProduct(id);
         await this.fetchData();
       } catch (error) {
         console.log(error);
