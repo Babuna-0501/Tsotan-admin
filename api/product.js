@@ -73,6 +73,14 @@ export default {
 
     async getCategoriesByParent(id){
         return axios.get(`${url}/category/list/${id}`);
-    }
+    },
+
+    async getUserList(){
+        return axios.get(`${url}/user/list`);
+    },
+
+    // async getOrderList(){
+    //     return axios.get(`${url}/order/list`);
+    // }
 
 };
