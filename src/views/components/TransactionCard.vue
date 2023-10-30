@@ -1,161 +1,137 @@
+
 <template>
-  <div class="card h-100 mb-4">
-    <div class="card-header pb-0 px-3">
-      <div class="row">
-        <div class="col-md-6">
-          <h6 class="mb-0">Захиалгын түүх</h6>
-        </div>
-      </div>
-    </div>
-    <div class="card-body pt-4 p-3">
-      <table class="mb-4">
-        <thead>
-          <tr>
-            <th>Захиалгын код</th>
-            <th>Он сар</th>
-            <th>Бүтээгдэхүүн</th>
-            <th>Тоо хэмжээ</th>
-            <th>Нийт</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="order in paginatedOrders" :key="order.id">
-            <td>{{ order.id }}</td>
-            <td>{{ order.date }}</td>
-            <td>{{ order.product }}</td>
-            <td>{{ order.quantity }}</td>
-            <td>{{ order.total }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="pagination">
-        <button @click="prevPage" :disabled="currentPage === 1">өмнөх</button>
-        <span>{{ currentPage }} / {{ totalPages }}</span>
-        <button @click="nextPage" :disabled="currentPage === totalPages">
-          дараах
-        </button>
-      </div>
+  <div>
+    <form @submit.prevent="search">
+      <input v-model="query.phoneNumber" placeholder="Утас" />
+      <input v-model="query.orderedProducts" placeholder="Захиалга" />
+      <input v-model="query.address" placeholder="Хаяг" />
+      <input v-model="query.info" placeholder="Гүйлгээний утга" />
+      <input v-model="query.minPrice" placeholder="Доод үнэ" />
+      <input v-model="query.maxPrice" placeholder="Дээд үнэ" />
+      <input v-model="query.from" placeholder="Эхлэх огноо" />
+      <input v-model="query.to" placeholder="Дуусах огноо" />
+      <button type="submit">Хайх</button>
+    </form>
+
+    <div class="card h-100 mb-4">
+
+
+      <div class="card h-100 mb-4">
+            <div class="card-header pb-0 px-3">
+              <div class="row">
+                <div class="col-md-6">
+                  <h6 class="mb-0">Захиалгын түүх</h6>
+                </div>
+              </div>
+            </div>
+            <div class="card-body pt-4 p-3">
+              <table class="mb-4">
+                <thead>
+                  <tr>
+                    <th>Захиалгын код</th>
+                    <th>Утас</th>
+                    <th>Бүтээгдэхүүн</th>
+                    <th>Үнэ</th>
+                    <th>Хаяг</th>
+                    <th>Тайлбар</th>
+                    <th>Гүйлгээний утга</th>
+                    <th>Төлөв</th>
+                    <th>Огноо</th>
+                    <th>Фб</th>
+                    <th>Мэйл</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <tr v-for="order in orders" :key="order.id">
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.phoneNumbers }}</td>
+                    <td>{{ order.orderedProducts }}</td>
+                    <td>{{ order.price }}</td>
+                    <td>{{ order.address }}</td>
+                    <td>{{ order.comment }}</td>
+                    <td>{{ order.transactionInfo }}</td>
+                    <td>{{ order.orderState }}</td>
+                    <td>{{ order.createdAt }}</td>
+                    <td>{{ order.fb }}</td>
+                    <td>{{ order.email }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="pagination">
+                <button @click="prevPage" :disabled="currentPage === 1">өмнөх</button>
+                <span>{{ currentPage }} / {{ totalPages }}</span>
+                <button @click="nextPage" :disabled="currentPage === totalPages">
+                  дараах
+                </button>
+              </div>
+            </div>
+          </div>
+
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
       orders: [],
       currentPage: 1,
-      itemsPerPage: 10,
+      itemsPerPage: 20,
+      query: {
+        phoneNumber: null,
+        address: null,
+        orderedProducts: null,
+        state: null,
+        info: null,
+        minPrice: null,
+        maxPrice: null,
+        from: null,
+        to: null,
+        page: 1, // Default to page 1
+        size: 20, // Default to 10 items per page
+      },
     };
   },
   computed: {
-    paginatedOrders() {
-      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-      const endIndex = startIndex + this.itemsPerPage;
-      return this.orders.slice(startIndex, endIndex);
-    },
+    // paginatedOrders() {
+    //   const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    //   const endIndex = startIndex + this.itemsPerPage;
+    //   return this.orders.slice(startIndex, endIndex);
+    // },
     totalPages() {
       return Math.ceil(this.orders.length / this.itemsPerPage);
     },
   },
   methods: {
-    fetchData() {
-      this.orders = [
-        {
-          id: 1,
-          date: "2023-10-01",
-          product: "Product A",
-          quantity: 3,
-          total: 150.0,
-        },
-        {
-          id: 2,
-          date: "2023-09-25",
-          product: "Product B",
-          quantity: 2,
-          total: 90.0,
-        },
-        {
-          id: 3,
-          date: "2023-09-20",
-          product: "Product C",
-          quantity: 1,
-          total: 30.0,
-        },
-        {
-          id: 4,
-          date: "2023-09-20",
-          product: "Product C",
-          quantity: 1,
-          total: 30.0,
-        },
-        {
-          id: 5,
-          date: "2023-09-20",
-          product: "Product C",
-          quantity: 1,
-          total: 30.0,
-        },
-        {
-          id: 6,
-          date: "2023-09-20",
-          product: "Product C",
-          quantity: 1,
-          total: 30.0,
-        },
-        {
-          id: 7,
-          date: "2023-09-20",
-          product: "Product C",
-          quantity: 1,
-          total: 30.0,
-        },
-        {
-          id: 8,
-          date: "2023-09-20",
-          product: "Product C",
-          quantity: 1,
-          total: 30.0,
-        },
-        {
-          id: 9,
-          date: "2023-09-20",
-          product: "Product C",
-          quantity: 1,
-          total: 30.0,
-        },
-        {
-          id: 10,
-          date: "2023-09-20",
-          product: "Product C",
-          quantity: 1,
-          total: 30.0,
-        },
-        {
-          id: 11,
-          date: "2023-09-20",
-          product: "Product C",
-          quantity: 1,
-          total: 30.0,
-        },
-        {
-          id: 12,
-          date: "2023-09-20",
-          product: "Product C",
-          quantity: 1,
-          total: 30.0,
-        },
-      ];
+    async fetchData() {
+      try {
+        const result = await axios.get('https://rest.tsotan.mn/order/search', {...this.query});
+        this.orders = result.data.content;
+
+        this.currentPage = this.query.page;
+      } catch (error) {
+        console.log(error);
+      }
     },
     prevPage() {
       if (this.currentPage > 1) {
-        this.currentPage--;
+        this.query.page = this.currentPage - 1;
+        this.fetchData();
       }
     },
     nextPage() {
       if (this.currentPage < this.totalPages) {
-        this.currentPage++;
+        this.query.page = this.currentPage + 1;
+        this.fetchData();
       }
+    },
+    async search() {
+      this.query.page = 1;
+      await this.fetchData();
     },
   },
   mounted() {
@@ -163,7 +139,11 @@ export default {
   },
 };
 </script>
+
 <style scoped>
+
+
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -200,3 +180,6 @@ th {
   cursor: not-allowed;
 }
 </style>
+
+
+
