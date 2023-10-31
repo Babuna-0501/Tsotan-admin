@@ -86,6 +86,27 @@
           </template>
         </sidenav-item>
       </li>
+      <aside class="menu-side" style="cursor: pointer; margin-top: 10px;">
+          <ul>
+          <li @click="toggleDropdown" style="list-style-type: none; font-size: 14px; margin-left: 1.5px;" >   <i class="ni ni-collection text-info text-sm opacity-10 ml-5"></i><span style="margin-left: 12px;">Категори</span></li>
+          <ul v-if="isDropdownOpen">
+            <li><sidenav-item url="/categor1" :class="getRoute() === 'categor1' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'اشتراك' : 'categor1'"/></li>
+            <li><sidenav-item url="/categor2" :class="getRoute() === 'categor2' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'اشتراك' : 'categor2'"/></li>
+            <li><sidenav-item url="/categor3" :class="getRoute() === 'categor3' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'اشتراك' : 'categor3'"/></li>
+          </ul>
+        </ul>
+      </aside>
+      <aside class="menu-side" style="cursor: pointer; margin-top: 25px;">
+          <ul>
+          <li @click="toggleDropdown1" style="list-style-type: none; font-size: 14px; margin-left: 1.5px;" >   <i class="ni ni-collection text-info text-sm opacity-10 ml-5"></i><span style="margin-left: 12px;">Нүүр хуудас удирдах</span></li>
+          <ul v-if="isDropdownOpen1">
+            <li><sidenav-item url="/control1" :class="getRoute() === 'control1' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'اشتراك' : 'Home slider солих'"/></li>
+            <li><sidenav-item url="/control2" :class="getRoute() === 'control2' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'اشتراك' : 'monthly deal солих'"/></li>
+            <li><sidenav-item url="/control3" :class="getRoute() === 'control3' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'اشتراك' : 'video солих'"/></li>
+            <li><sidenav-item url="/control4" :class="getRoute() === 'control4' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'اشتراك' : 'bottom banner солих'"/></li>
+          </ul>
+        </ul>
+      </aside>
     </ul>
   </div>
 </template>
@@ -102,6 +123,8 @@ export default {
       title: "Tsotan",
       controls: "dashboardsExamples",
       isActive: "active",
+      isDropdownOpen: false,
+      isDropdownOpen1: false,
     };
   },
   components: {
@@ -114,6 +137,13 @@ export default {
     getRoute() {
       const routeArr = this.$route.path.split("/");
       return routeArr[1];
+    },
+
+    toggleDropdown() {
+      this.isDropdownOpen = !this.isDropdownOpen;
+    },
+    toggleDropdown1() {
+      this.isDropdownOpen1 = !this.isDropdownOpen1;
     },
 
     checkPermission() {

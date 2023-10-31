@@ -3,7 +3,7 @@
       <h2>Админы жагсаалт</h2>
       <ul style="display: flex; gap: 40px; flex-direction: column; margin-top: 50px;">
         <li style="gap: 30px; display: flex; flex-wrap: wrap;" v-for="user in users" :key="user.id">
-          {{ user.name }}
+          {{ user.username}}
           <button class="delete-button" @click="deleteUser(user.id)">Устгах</button>
         </li>
       </ul>
@@ -11,17 +11,25 @@
   </template>
   
   <script>
+   import axios from 'axios';
   export default {
     data() {
       return {
-        users: [
-          { id: 1, name: 'User 1' },
-          { id: 2, name: 'User 2' },
-          { id: 3, name: 'User 3' },
-        ],
+        users: [],
       };
     },
+    mounted() {
+    this.fetchUsers();
+    },
     methods: {
+      async fetchUsers() {
+      try {
+        const response = await axios.get('https://rest.tsotan.mn/user/list');
+        this.users = response.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
       deleteUser(userId) {
         const index = this.users.findIndex(user => user.id === userId);
   
