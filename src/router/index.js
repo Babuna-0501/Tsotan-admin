@@ -10,6 +10,9 @@ import Edit from "../views/Edit.vue";
 import CategoryAdd from "../views/CategoryAdd.vue";
 import Order from "../views/Order.vue";
 import Users from "../views/components/UserList.vue";
+import imageUpload from "../views/components/ImageUploader.vue"
+import monthlyUpload from "../views/components/MonthlyUploader.vue"
+import videoUpload from "../views/components/VideoUploader.vue"
 
 function decodeToken(token) {
   try {
@@ -83,6 +86,21 @@ const routes = [
     path: "/users",
     name: "users",
     component: Users,
+  },
+  {
+    path: "/imageUpload",
+    name: "imageUpload",
+    component: imageUpload,
+  },
+  {
+    path: "/monthlyUpload",
+    name: "monthlyUpload",
+    component: monthlyUpload,
+  },
+  {
+    path: "/videoUpload",
+    name: "videoUpload",
+    component: videoUpload,
   },
 ];
 
