@@ -79,8 +79,4 @@ export default {
         return axios.get(`${url}/user/list`);
     },
 
-    async getOrderList(data){
-        return axios.get(`${url}/order/search`, data);
-    }
-
 };

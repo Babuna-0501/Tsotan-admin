@@ -8,8 +8,8 @@
       <input v-model="query.info" placeholder="Гүйлгээний утга" />
       <input v-model="query.minPrice" placeholder="Доод үнэ" />
       <input v-model="query.maxPrice" placeholder="Дээд үнэ" />
-      <input v-model="query.from" placeholder="Эхлэх огноо" />
-      <input v-model="query.to" placeholder="Дуусах огноо" />
+      <input v-model="from" placeholder="Эхлэх огноо"/>
+      <input v-model="to" placeholder="Дуусах огноо"/>
       <button type="submit">Хайх</button>
     </form>
 
@@ -28,9 +28,9 @@
               <table class="mb-4">
                 <thead>
                   <tr>
-                    <th>Захиалгын код</th>
+                    <th>№</th>
                     <th>Утас</th>
-                    <th>Бүтээгдэхүүн</th>
+                    <th>Захиалсан бүтээгдэхүүн</th>
                     <th>Үнэ</th>
                     <th>Хаяг</th>
                     <th>Тайлбар</th>
@@ -43,7 +43,7 @@
                 </thead>
                 <tbody>
 
-                  <tr v-for="order in orders" :key="order.id">
+                  <tr v-for="order in paginatedOrders" :key="order.id">
                     <td>{{ order.id }}</td>
                     <td>{{ order.phoneNumbers }}</td>
                     <td>{{ order.orderedProducts }}</td>
@@ -60,8 +60,8 @@
               </table>
               <div class="pagination">
                 <button @click="prevPage" :disabled="currentPage === 1">өмнөх</button>
-                <span>{{ currentPage }} / {{ totalPages }}</span>
-                <button @click="nextPage" :disabled="currentPage === totalPages">
+                <span>{{ currentPage }} / {{ getTotalPage }}</span>
+                <button @click="nextPage" :disabled="currentPage >= getTotalPage">
                   дараах
                 </button>
               </div>
@@ -77,10 +77,14 @@ import axios from "axios";
 
 export default {
   data() {
+
+    // paginatedOrders() {
+    //   const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    //   const endIndex = startIndex + this.itemsPerPage;
+    //   return this.orders.slice(startIndex, endIndex);
+    // },
     return {
       orders: [],
-      currentPage: 1,
-      itemsPerPage: 20,
       query: {
         phoneNumber: null,
         address: null,
@@ -91,50 +95,97 @@ export default {
         maxPrice: null,
         from: null,
         to: null,
-        page: 1, // Default to page 1
+        page: 0, // Default to page 1
         size: 20, // Default to 10 items per page
       },
+      from: null,
+      to: null,
+      totalPages: 0,
     };
   },
   computed: {
-    // paginatedOrders() {
-    //   const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    //   const endIndex = startIndex + this.itemsPerPage;
-    //   return this.orders.slice(startIndex, endIndex);
-    // },
-    totalPages() {
-      return Math.ceil(this.orders.length / this.itemsPerPage);
+    paginatedOrders() {
+      // const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      // const endIndex = startIndex + this.itemsPerPage;
+      // return this.orders.slice(startIndex, endIndex);
+      return this.orders;
+    },
+    currentPage() {
+      return this.query.page + 1;
+    },
+
+    getTotalPage() {
+      return this.totalPages;
     },
   },
   methods: {
     async fetchData() {
       try {
-        const result = await axios.get('https://rest.tsotan.mn/order/search', {...this.query});
-        this.orders = result.data.content;
+        if (this.to) this.query.to = this.formatDate(this.to, 23, 59, 59);
+        if (this.from) this.query.from = this.formatDate(this.from, 0, 0, 0);
 
+        this.orders = await this.getOrderList(this.query);
         this.currentPage = this.query.page;
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
+    },
+
+    async getOrderList(data = {}) {
+      try {
+        const result =  await axios.get('https://rest.tsotan.mn/order/search', {params: data});
+        console.log(result.data.content);
+        this.totalPages = result.data.totalPages;
+        return result.data.content;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    },
+
+
+    formatDate(date, h, m, s) {
+      const formattedInput = date.replace(/[-:\s]/g, '-');
+
+      const parts = formattedInput.split('-');
+      const year = parseInt(parts[0]);
+      const month = parseInt(parts[1]) - 1;
+      const day = parseInt(parts[2]);
+
+      return this.formatDateToServerFormat(new Date(year, month, day, h, m, s));
+
+
+    },
+
+    formatDateToServerFormat(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // Adjust month (0-11) to (1-12)
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     },
     prevPage() {
       if (this.currentPage > 1) {
-        this.query.page = this.currentPage - 1;
+        this.query.page = this.currentPage - 2;
         this.fetchData();
       }
     },
     nextPage() {
       if (this.currentPage < this.totalPages) {
-        this.query.page = this.currentPage + 1;
+        this.query.page = this.currentPage;
         this.fetchData();
       }
     },
     async search() {
-      this.query.page = 1;
+      this.query.page = 0;
       await this.fetchData();
     },
   },
   mounted() {
+    this.query.page = 0;
     this.fetchData();
   },
 };
