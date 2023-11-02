@@ -39,6 +39,7 @@
                     <th>Огноо</th>
                     <th>Фб</th>
                     <th>Мэйл</th>
+                    <th>Үйлдэл</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -51,10 +52,11 @@
                     <td>{{ order.address }}</td>
                     <td>{{ order.comment }}</td>
                     <td>{{ order.transactionInfo }}</td>
-                    <td>{{ order.orderState }}</td>
+                    <td>{{ getOrderStateText(order.orderState)  }}</td>
                     <td>{{ order.createdAt }}</td>
                     <td>{{ order.fb }}</td>
                     <td>{{ order.email }}</td>
+                    <td><dropdown-button :order-id="order.id" @fetch="fetchData"></dropdown-button></td>
                   </tr>
                 </tbody>
               </table>
@@ -74,9 +76,21 @@
 
 <script>
 import axios from "axios";
+import DropdownButton from "@/views/DropdownButton.vue";
 
 export default {
+  components: {
+    'dropdown-button': DropdownButton,
+  },
   data() {
+    const orderStates = [
+      {value: 'CREATED', text: 'Хүлээгдэж буй'},
+      {value: 'PAID', text: 'Төлөгдсөн'},
+      {value: 'TRANSFERRED', text: 'Дансаар шилжүүлсэн'},
+      {value: 'DELIVERED', text: 'Хүргэлтэнд өгсөн'},
+      {value: 'RECEIVED', text: 'Хүлээн авсан'},
+      {value: 'CANCELLED', text: 'Төлөгдөөгүй'}
+    ];
 
     // paginatedOrders() {
     //   const startIndex = (this.currentPage - 1) * this.itemsPerPage;
@@ -84,6 +98,7 @@ export default {
     //   return this.orders.slice(startIndex, endIndex);
     // },
     return {
+      orderStates,
       orders: [],
       query: {
         phoneNumber: null,
@@ -95,8 +110,8 @@ export default {
         maxPrice: null,
         from: null,
         to: null,
-        page: 0, // Default to page 1
-        size: 20, // Default to 10 items per page
+        page: 0,
+        size: 20,
       },
       from: null,
       to: null,
@@ -117,8 +132,17 @@ export default {
     getTotalPage() {
       return this.totalPages;
     },
+
+    getOrderStateText() {
+      return (orderState) => {
+        const stateObject = this.orderStates.find((state) => state.value === orderState);
+        return stateObject ? stateObject.text : '';
+      };
+    },
+
   },
   methods: {
+
     async fetchData() {
       try {
         if (this.to) this.query.to = this.formatDate(this.to, 23, 59, 59);
