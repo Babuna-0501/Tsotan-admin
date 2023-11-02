@@ -13,6 +13,10 @@ import Users from "../views/components/UserList.vue";
 import imageUpload from "../views/components/ImageUploader.vue"
 import monthlyUpload from "../views/components/MonthlyUploader.vue"
 import videoUpload from "../views/components/VideoUploader.vue"
+import Category1 from "../views/components/Category1.vue"
+import Category2 from "../views/components/Category2.vue"
+import Category3 from "../views/components/Category3.vue"
+import BannerUpload from "../views/components/BannerUpload.vue"
 
 function decodeToken(token) {
   try {
@@ -101,6 +105,26 @@ const routes = [
     path: "/videoUpload",
     name: "videoUpload",
     component: videoUpload,
+  },
+   {
+    path: "/category1",
+    name: "category1",
+    component: Category1,
+  },
+  {
+    path: "/category2",
+    name: "category2",
+    component: Category2,
+  },
+  {
+    path: "/category3",
+    name: "category3",
+    component: Category3,
+  },
+  {
+    path: "/bannerUpload",
+    name: "bannerUpload",
+    component: BannerUpload,
   },
 ];
 

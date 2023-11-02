@@ -115,13 +115,14 @@ export default {
       console.log(this.username);
       if (this.username && this.password && this.email) {
         try {
-           const data = {username: this.username, password: this.password, role: this.role, email: this.email};
-           await axios.post('https://rest.tsotan.mn/user/create', data);
-          // await api.createUser({username: this.username, password: this.password, role: this.role, email: this.email});
+          const data = { username: this.username, password: this.password, role: this.role, email: this.email };
+          await axios.post('https://rest.tsotan.mn/user/create', data);
           alert("Хэрэглэгч амжилттай үүсгэлээ.");
+
+          window.location.href = '/users';
         } catch (error) {
-          alert("Хэрэглэгч бүртгэхэд алдаа гарлаа.")
-          console.log(error)
+          alert("Хэрэглэгч бүртгэхэд алдаа гарлаа.");
+          console.log(error);
         }
       }
     },

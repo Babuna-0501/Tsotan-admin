@@ -48,6 +48,18 @@
                         >Нэвтрэх</argon-button
                       >
                     </div>
+                    <div class="text-center">
+                      <argon-button
+                        class="mt-4"
+                        variant="gradient"
+                        color="success"
+                        fullWidth
+                        size="lg"
+                        @click="navigateToSignupPage"
+                      >
+                        Бүртгүүлэх
+                      </argon-button>
+                    </div>
                   </form>
                 </div>
               </div>
@@ -150,6 +162,9 @@ export default {
         this.loading = false;
       }
 
+    },
+    navigateToSignupPage() {
+      window.location.href = "/signup";
     },
   }
 };

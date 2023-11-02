@@ -64,35 +64,42 @@
           </template>
         </sidenav-item>
       </li>
-      <li class="nav-item">
-        <sidenav-item
-          url="/signup"
-          :class="getRoute() === 'signup' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'اشتراك' : 'Хэрэглэгч нэмэх'"
-        >
-          <template v-slot:icon>
-            <i class="ni ni-collection text-info text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li>
-      <li class="nav-item">
-        <sidenav-item
-          url="/users"
-          :class="getRoute() === 'users' ? 'active' : ''"
-          :navText="this.$store.state.isRTL ? 'اشتراك' : 'Хэрэглэгчид'"
-        >
-          <template v-slot:icon>
-            <i class="ni ni-collection text-info text-sm opacity-10"></i>
-          </template>
-        </sidenav-item>
-      </li>
-      <aside class="menu-side" style="cursor: pointer; margin-top: 10px;">
+      <aside class="menu-side mb-4" style="cursor: pointer; margin-top: 20px;">
+          <ul>
+          <li @click="toggleDropdown2" style="list-style-type: none; font-size: 14px; margin-left: 1.5px;" >   <i class="ni ni-collection text-info text-sm opacity-10 ml-5"></i><span style="margin-left: 12px;">Хэрэглэгчид</span></li>
+          <ul v-if="isDropdownOpen2">
+            <li class="nav-item">
+              <sidenav-item
+                url="/signup"
+                :class="getRoute() === 'signup' ? 'active' : ''"
+                :navText="this.$store.state.isRTL ? 'اشتراك' : 'Хэрэглэгч нэмэх'"
+              >
+                <template v-slot:icon>
+                  <i class="ni ni-collection text-info text-sm opacity-10"></i>
+                </template>
+              </sidenav-item>
+            </li>
+            <li class="nav-item">
+              <sidenav-item
+                url="/users"
+                :class="getRoute() === 'users' ? 'active' : ''"
+                :navText="this.$store.state.isRTL ? 'اشتراك' : 'Хэрэглэгчид'"
+              >
+                <template v-slot:icon>
+                  <i class="ni ni-collection text-info text-sm opacity-10"></i>
+                </template>
+              </sidenav-item>
+            </li>
+          </ul>
+        </ul>
+      </aside>
+      <aside class="menu-side mb-1" style="cursor: pointer; margin-top: 10px;">
           <ul>
           <li @click="toggleDropdown" style="list-style-type: none; font-size: 14px; margin-left: 1.5px;" >   <i class="ni ni-collection text-info text-sm opacity-10 ml-5"></i><span style="margin-left: 12px;">Категори</span></li>
           <ul v-if="isDropdownOpen">
-            <li><sidenav-item url="/categor1" :class="getRoute() === 'categor1' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'اشتراك' : 'categor1'"/></li>
-            <li><sidenav-item url="/categor2" :class="getRoute() === 'categor2' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'اشتراك' : 'categor2'"/></li>
-            <li><sidenav-item url="/categor3" :class="getRoute() === 'categor3' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'اشتراك' : 'categor3'"/></li>
+            <li><sidenav-item url="/category1" :class="getRoute() === 'category1' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'اشتراك' : 'categor1'"/></li>
+            <li><sidenav-item url="/category2" :class="getRoute() === 'category2' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'اشتراك' : 'categor2'"/></li>
+            <li><sidenav-item url="/category3" :class="getRoute() === 'category3' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'اشتراك' : 'categor3'"/></li>
           </ul>
         </ul>
       </aside>
@@ -103,7 +110,7 @@
             <li><sidenav-item url="/imageUpload" :class="getRoute() === 'imageUpload' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'اشتراك' : 'Home slider солих'"/></li>
             <li><sidenav-item url="/monthlyUpload" :class="getRoute() === 'monthlyUpload' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'اشتراك' : 'monthly deal солих'"/></li>
             <li><sidenav-item url="/videoUpload" :class="getRoute() === 'videoUpload' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'اشتراك' : 'video солих'"/></li>
-            <li><sidenav-item url="/control4" :class="getRoute() === 'control4' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'اشتراك' : 'bottom banner солих'"/></li>
+            <li><sidenav-item url="/bannerUpload" :class="getRoute() === 'bannerUpload' ? 'active' : ''" :navText="this.$store.state.isRTL ? 'اشتراك' : 'bottom banner солих'"/></li>
           </ul>
         </ul>
       </aside>
@@ -125,6 +132,7 @@ export default {
       isActive: "active",
       isDropdownOpen: false,
       isDropdownOpen1: false,
+      isDropdownOpen2: false,
     };
   },
   components: {
@@ -144,6 +152,9 @@ export default {
     },
     toggleDropdown1() {
       this.isDropdownOpen1 = !this.isDropdownOpen1;
+    },
+    toggleDropdown2() {
+      this.isDropdownOpen2 = !this.isDropdownOpen2;
     },
 
     checkPermission() {
@@ -177,3 +188,8 @@ export default {
   },
 };
 </script>
+<style>
+.menu-side ul li {
+  list-style-type: none;
+}
+</style>

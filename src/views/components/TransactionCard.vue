@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <form @submit.prevent="search">
+    <form @submit.prevent="search" class="form-order">
       <input v-model="query.phoneNumber" placeholder="Утас" />
       <input v-model="query.orderedProducts" placeholder="Захиалга" />
       <input v-model="query.address" placeholder="Хаяг" />
@@ -13,14 +13,12 @@
       <button type="submit">Хайх</button>
     </form>
 
-    <div class="card h-100 mb-4">
-
-
+    <div class="card h-100 mb-4 mt-5">
       <div class="card h-100 mb-4">
             <div class="card-header pb-0 px-3">
               <div class="row">
                 <div class="col-md-6">
-                  <h6 class="mb-0">Захиалгын түүх</h6>
+                  <h5 class="mb-0">Захиалгын түүх</h5>
                 </div>
               </div>
             </div>
@@ -56,7 +54,7 @@
                     <td>{{ order.createdAt }}</td>
                     <td>{{ order.fb }}</td>
                     <td>{{ order.email }}</td>
-                    <td><dropdown-button :order-id="order.id" @fetch="fetchData"></dropdown-button></td>
+                    <td><dropdown-button :order-id="order.id" @fetch="fetchData" class="mode" style="border: none;"></dropdown-button></td>
                   </tr>
                 </tbody>
               </table>
@@ -69,7 +67,6 @@
               </div>
             </div>
           </div>
-
     </div>
   </div>
 </template>
@@ -253,6 +250,25 @@ th {
 .pagination button[disabled] {
   opacity: 0.8;
   cursor: not-allowed;
+}
+
+.form-order {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+.form-order input {
+  border-radius: 10px;
+  padding: 5px 10px;
+  border: none;
+}
+.form-order button {
+  width: 140px;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background-color: #27a8c2;
+  color: #fff;
 }
 </style>
 

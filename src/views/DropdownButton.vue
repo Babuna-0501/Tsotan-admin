@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="drop-mode">
     <button @click="toggleDropdown">Төлөв солих</button>
     <div v-if="isDropdownOpen" class="dropdown">
       <button @click="handleDropdownItem('PAID')">Төлөгдсөн</button>
@@ -68,5 +68,18 @@ export default {
   background-color: #fff;
   border: 1px solid #ccc;
   padding: 8px;
+  gap: 10px;
+}
+
+.drop-mode button {
+  width: 100px !important;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  color: #fff;
+  font-size: 15px;
+  background-color: #36d1a0;
+  height: 50px;
+  line-height: normal;
 }
 </style>
