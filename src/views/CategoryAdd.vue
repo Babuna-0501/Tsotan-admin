@@ -187,7 +187,7 @@ export default {
     },
 
     async addCategory() {
-
+     
       const categoryDTO = {
         'name': this.add.name,
         'parentId': this.add.parentId,
@@ -202,6 +202,7 @@ export default {
       }
       this.isLoading = false;
       this.showInputField = false;
+      window.alert(`Adding category: ${this.add.name}`);
     },
 
   },

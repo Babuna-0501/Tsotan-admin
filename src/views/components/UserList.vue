@@ -4,7 +4,7 @@
       <ul style="display: flex; gap: 40px; flex-direction: column; margin-top: 50px;">
         <li style="gap: 30px; display: flex; flex-wrap: wrap;" v-for="user in users" :key="user.id">
           {{ user.username}}
-          <button class="delete-button" @click="deleteUser(user.id)">Устгах</button>
+          <button class="delete-button" @click="confirmDelete(user.id)">Устгах</button>
         </li>
       </ul>
     </div>
@@ -30,13 +30,18 @@
         console.error(error);
       }
     },
-      deleteUser(userId) {
-        const index = this.users.findIndex(user => user.id === userId);
-  
-        if (index !== -1) {
-          this.users.splice(index, 1);
-        }
-      },
+    confirmDelete(userId) {
+      const confirmMessage = `Та ${userId} хэрэглэгчийг устгах уу?`;
+
+      if (window.confirm(confirmMessage)) {
+        this.deleteUser(userId);
+      } else {
+        console.log('Delete action canceled');
+      }
+    },
+    deleteUser(userId) {
+      console.log(`Deleting user with ID ${userId}`);
+    },
     },
   };
   </script>
