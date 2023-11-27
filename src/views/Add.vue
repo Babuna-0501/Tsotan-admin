@@ -123,15 +123,8 @@
                   <label for="file">Зураг</label>
 
                   <div>
-                    <img v-for="(image, index) in product.image" :src="getImg(image)" :key="index" alt="image"/>
+                    <img v-for="(image, index) in computedImages" :src="image" :key="index" alt="image"/>
                   </div>
-
-<!--                  <span v-if="product.image1">-->
-<!--                    <img :src="product.image1" style="width: 200px" alt="image1"/>-->
-<!--                  </span>-->
-<!--                  <span v-if="product.image2">-->
-<!--                    <img :src="product.image2" style="width: 200px" alt="image2"/>-->
-<!--                  </span>-->
 
                   <div id="uploadedImagesContainer"></div>
 
@@ -198,6 +191,7 @@ export default {
     ArgonButton,
     ArgonTextArea,
   },
+
   created() {
     this.$store.state.hideConfigButton = true;
     this.$store.state.showNavbar = false;
@@ -246,7 +240,12 @@ export default {
     isClickable() {
       return (this.product.name && this.product.image.length === 4 &&
           this.product.price && this.product.categoryId)
-    }
+    },
+      computedImages() {
+        // Use this.product.image and perform any additional computations if needed
+        return this.product.image;
+      }
+
   },
   methods: {
 

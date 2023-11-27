@@ -23,21 +23,27 @@
     },
     methods: {
       async fetchUsers() {
-      try {
-        const response = await axios.get('https://rest.tsotan.mn/user/list');
-        this.users = response.data;
-      } catch (error) {
-        console.error(error);
-      }
-    },
-      deleteUser(userId) {
-        const index = this.users.findIndex(user => user.id === userId);
-  
-        if (index !== -1) {
-          this.users.splice(index, 1);
+        try {
+          const response = await axios.get('https://rest.tsotan.mn/user/list');
+          this.users = response.data;
+        } catch (error) {
+          console.error(error);
         }
       },
-    },
+       async deleteUser(userId) {
+          try {
+            const response = await axios.post('https://rest.tsotan.mn/user/delete/' + userId);
+            if (response.data === true) {
+              const index = this.users.findIndex(user => user.id === userId);
+              if (index !== -1) {
+                this.users.splice(index, 1);
+              }
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        },
+      }
   };
   </script>
 <style scoped>

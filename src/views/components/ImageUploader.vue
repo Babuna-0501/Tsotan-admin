@@ -1,6 +1,23 @@
 <template>
-  <div class="image-uploader"> 
-    <input type="file" @change="uploadImage" accept="image/*" />
+  <div class="image-uploader">
+
+    <div>
+      <img v-for="(image, index) in product.image" :src="getImg(image)" :key="index" alt="image"/>
+    </div>
+
+    <div id="uploadedImagesContainer"></div>
+
+    <div class="col-xl-6">
+      <input id="image" type="file" ref="image" multiple @change="onImageChange1"/>
+    </div>
+
+
+    <div class="col-xl-6">
+      <input id="image" type="file" ref="image" multiple @change="onImageChange2"/>
+    </div>
+  </div>
+<div>
+  <input type="file" @change="uploadImage" accept="image/*" />
     <label class="upload-button" style="width: 150px;" @click="triggerFileInput">Upload</label>
     <button @click="clearImage">Арилгах</button>
     <img :src="imageUrl" alt="Uploaded Image" v-if="imageUrl" />
@@ -9,6 +26,8 @@
 
   
   <script>
+  import s3 from "@/assets/s3config";
+
   export default {
     data() {
       return {
@@ -27,6 +46,34 @@
       clearImage() {
         this.imageUrl = null;
         this.file = null;
+      },
+      onImageChange1(event) {
+        const file = event.target.files[0];
+
+        const fileName = this.uploadPhoto(file, this.bucketName);
+        this.product.image[0] = "https://" + this.bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
+      },
+      onImageChange2(event) {
+        const file = event.target.files[0];
+        const fileName = this.uploadPhoto(file, this.bucketName);
+        this.product.image[1] = "https://" + this.bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
+      },
+      uploadPhoto(file, bucketName) {
+        const fileName = Date.now().toString();
+        const params = {
+          Bucket: bucketName,
+          Key: fileName,
+          Body: file,
+        };
+        s3.putObject(params, (err, data) => {
+          if (err) {
+            console.error('Error uploading image:', err);
+          } else {
+            console.log('Image uploaded successfully:', data);
+          }
+        });
+        return fileName;
+
       },
     },
   };
