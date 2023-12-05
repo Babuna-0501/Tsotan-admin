@@ -1,128 +1,122 @@
 <template>
-  <div class="image-uploader">
-
-    <div>
-      <img v-for="(image, index) in product.image" :src="getImg(image)" :key="index" alt="image"/>
+  <div class="row">
+    <div class="col-xl-6">
+      <img v-if="!updateImage1" :src="imageUrl1 || banner1.url" alt="Banner 1" class="shadow-sm w-100 border-radius-lg" />
+      <img v-if="updateImage1" :src="imageUrl1" alt="Updated Banner 1" class="shadow-sm w-100 border-radius-lg" />
+      <button @click="updateImage1 = true" v-if="!updateImage1 && !imageUrl1">Update</button>
+      <input v-if="updateImage1" id="image1" type="file" ref="image1" @change="onImageChange(1, $event)" />
+      <button v-if="imageUrl1" @click="updateBanner(1)">Save</button>
     </div>
-
-    <div id="uploadedImagesContainer"></div>
 
     <div class="col-xl-6">
-      <input id="image" type="file" ref="image" multiple @change="onImageChange1"/>
+      <img v-if="!updateImage2" :src="imageUrl2 || banner2.url" alt="Banner 2" class="shadow-sm w-100 border-radius-lg" />
+      <img v-if="updateImage2" :src="imageUrl2" alt="Updated Banner 2" class="shadow-sm w-100 border-radius-lg" />
+      <button @click="updateImage2 = true" v-if="!updateImage2 && !imageUrl2">Update</button>
+      <input v-if="updateImage2" id="image2" type="file" ref="image2" @change="onImageChange(2, $event)" />
+      <button v-if="imageUrl2" @click="updateBanner(2)">Save</button>
     </div>
-
-
-    <div class="col-xl-6">
-      <input id="image" type="file" ref="image" multiple @change="onImageChange2"/>
-    </div>
-  </div>
-<div>
-  <input type="file" @change="uploadImage" accept="image/*" />
-    <label class="upload-button" style="width: 150px;" @click="triggerFileInput">Upload</label>
-    <button @click="clearImage">Арилгах</button>
-    <img :src="imageUrl" alt="Uploaded Image" v-if="imageUrl" />
   </div>
 </template>
 
-  
-  <script>
-  import s3 from "@/assets/s3config";
+<script>
+import s3 from "@/assets/s3config";
+import axios from "axios";
 
-  export default {
-    data() {
-      return {
-        imageUrl: null,
-        file: null,
-      };
+export default {
+  data() {
+    return {
+      banner1: '',
+      banner2: '',
+      imageUrl1: null,
+      imageUrl2: null,
+      file: null,
+      bucketName: 'tsotanmn',
+      updateImage1: false,
+      updateImage2: false,
+    };
+  },
+  mounted() {
+    this.fetchData();
+  },
+  methods: {
+    async fetchData() {
+      console.log('fetch data')
+      try {
+        const result = await axios.get('http://localhost:8443/banner/list', {
+          params: { type: 'slider' }
+        });
+        this.banner1 = result.data[0] || { url: null };
+        this.banner2 = result.data[1] || { url: null };
+        console.log(result.data);
+      } catch (error) {
+        console.error(error);
+      }
     },
-    methods: {
-      uploadImage(event) {
-        const file = event.target.files[0];
-        if (file) {
-          this.file = file;
-          this.imageUrl = URL.createObjectURL(file);
-        }
-      },
-      clearImage() {
-        this.imageUrl = null;
-        this.file = null;
-      },
-      onImageChange1(event) {
-        const file = event.target.files[0];
 
-        const fileName = this.uploadPhoto(file, this.bucketName);
-        this.product.image[0] = "https://" + this.bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
-      },
-      onImageChange2(event) {
-        const file = event.target.files[0];
-        const fileName = this.uploadPhoto(file, this.bucketName);
-        this.product.image[1] = "https://" + this.bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
-      },
-      uploadPhoto(file, bucketName) {
-        const fileName = Date.now().toString();
-        const params = {
-          Bucket: bucketName,
-          Key: fileName,
-          Body: file,
-        };
+    async uploadPhoto(file, bucketName) {
+      const fileName = Date.now().toString();
+      const params = {
+        Bucket: bucketName,
+        Key: fileName,
+        Body: file,
+      };
+      return new Promise((resolve, reject) => {
         s3.putObject(params, (err, data) => {
           if (err) {
             console.error('Error uploading image:', err);
+            reject(err);
           } else {
             console.log('Image uploaded successfully:', data);
+            resolve(fileName);
           }
         });
-        return fileName;
-
-      },
+      });
     },
-  };
-  </script>
+
+    async onImageChange(index, event) {
+      console.log('update image is called')
+      if (!event || !event.target) {
+        console.error('Invalid event object:', event);
+        return;
+      }
+
+      const file = event.target.files[0];
+      const updateImageKey = `updateImage${index}`;
+      const imageUrlKey = `imageUrl${index}`;
+
+      if (file) {
+        try {
+          const fileName = await this.uploadPhoto(file, this.bucketName);
+          this[imageUrlKey] = `https://${this.bucketName}.s3.ap-southeast-1.amazonaws.com/${fileName}`;
+          console.log(this.imageUrl1);
+          this[updateImageKey] = false;
+        } catch (error) {
+          console.error('Error updating image:', error);
+        }
+      }
+    },
+
+    async updateBanner(index) {
+      try {
+        const banner = this[`banner${index}`];
+        const id = banner.id;
+        console.log(id);
+        const updateDTO = {
+          type: 'slider',
+          url: this[`imageUrl${index}`],
+        };
+        const result = await axios.post(`http://localhost:8443/banner/update/${id}`, updateDTO);
+        this[`banner${index}`] = result.data;
+        this.imageUrl1 = null;
+        this.imageUrl2 = null;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
+};
+</script>
 
 <style>
-.image-uploader {
-  text-align: center;
-  margin: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 25px;
-}
 
-
-.image-uploader label {
-  background-color: #007BFF;
-  color: #fff;
-  padding: 10px 20px;
-  cursor: pointer;
-  border: none;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-.image-uploader label:hover {
-  background-color: #0056b3;
-}
-
-.image-uploader img {
-  max-width: 100%;
-  max-height: 200px;
-  margin-top: 10px;
-}
-
-.image-uploader button {
-  background-color: #dc3545;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
-  cursor: pointer;
-  margin-top: 10px;
-  width: 150px;
-}
-
-.image-uploader button:hover {
-  background-color: #a61c29;
-}
 </style>
-  
