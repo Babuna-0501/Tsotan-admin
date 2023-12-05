@@ -1,9 +1,9 @@
 <template>
-  <div class="card h-100 mb-4 p-5 w-50">
+  <div class="card h-100 mb-4 p-5 w-50 card_category2">
     <h2>Категори 1</h2>
 
-    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 50px;">
-      <label for="Category">Үндсэн категори</label>
+    <div style="display: flex; align-items: center; gap: 55px; margin-bottom: 50px;">
+      <label for="Category" style="font-size: 18px;">Үндсэн категори</label>
       <div style="margin-right: 10px;">
         <select class="form-control" v-model="selectedParentCategory" @change="onParentChange($event)">
           <option v-for="item in parentCategories" :key="item.name">
@@ -25,8 +25,10 @@
         <li style="gap: 30px; display: flex; flex-wrap: wrap;" v-for="cat in categories" :key="cat.id">
           <span v-if="!cat.isEditable">{{ cat.name }}</span>
           <input v-else v-model="cat.editableName"/>
-          <button class="edit-button" @click="toggleEdit(cat)">{{ cat.isEditable ? 'Хадгалах' : 'Нэр солих' }}</button>
-          <button class="delete-button" @click="deleteCat(cat)">Устгах</button>
+          <span>
+            <button class="edit-button" @click="toggleEdit(cat)">{{ cat.isEditable ? 'Хадгалах' : 'Нэр солих' }}</button>
+            <button class="delete-button" @click="deleteCat(cat)">Устгах</button>
+          </span>
         </li>
       </ul>
     </div>
@@ -117,3 +119,39 @@ export default {
   },
 };
 </script>
+
+<style>
+.card_category2 {
+  font-size: 20px;
+}
+
+
+.card_category2 ul li {
+  display: inherit;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+}
+
+.card_category2 ul li span {
+  display: flex;
+  gap: 20px;
+}
+
+.card_category2 .edit-button {
+  border: none;
+  background-color: #3498db;
+  padding: 5px 10px;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.card_category2 .delete-button {
+  border: none;
+  background-color: #db347a;
+  padding: 5px 10px;
+  border-radius: 10px;
+  color: #fff;
+}
+
+</style>

@@ -2,11 +2,11 @@
   <div class="drop-mode">
     <button @click="toggleDropdown">Төлөв солих</button>
     <div v-if="isDropdownOpen" class="dropdown">
-      <button @click="handleDropdownItem('PAID')">Төлөгдсөн</button>
-      <button @click="handleDropdownItem('TRANSFERRED')">Шилжүүлсэн</button>
-      <button @click="handleDropdownItem('DELIVERED')">Хүргүүлсэн</button>
-      <button @click="handleDropdownItem('CANCELLED')">Цуцлагдсан</button>
-      <button @click="checkPayment()">Төлбөр шалгах</button>
+      <button style="background-color: rgb(45, 92, 92);" @click="handleDropdownItem('PAID')">Төлөгдсөн</button>
+      <button style="background-color: rgb(44, 84, 145);" @click="handleDropdownItem('TRANSFERRED')">Шилжүүлсэн</button>
+      <button style="background-color: rgb(226, 191, 36);" @click="handleDropdownItem('DELIVERED')">Хүргүүлсэн</button>
+      <button style="background-color: rgb(161, 51, 102);" @click="handleDropdownItem('CANCELLED')">Цуцлагдсан</button>
+      <button style="background-color: rgb(85, 92, 84);" @click="checkPayment()">Төлбөр шалгах</button>
     </div>
   </div>
 </template>

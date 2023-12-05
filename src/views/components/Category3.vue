@@ -1,9 +1,9 @@
 <template>
-  <div class="card h-100 mb-4 p-5 w-50">
+  <div class="card h-100 mb-4 p-5 w-50 card_category3">
     <h2>Категори 1</h2>
 
-    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 50px;">
-      <label for="Category">Үндсэн категори</label>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 50px; margin-bottom: 50px;">
+      <label for="Category" style="font-size: 18px;">Үндсэн категори</label>
       <div style="margin-right: 10px;">
         <select class="form-control" v-model="selectedParentCategory" @change="onParentChange($event)">
           <option v-for="item in parentCategories" :key="item.name">
@@ -13,8 +13,8 @@
       </div>
     </div>
 
-    <div v-if="selectedParentCategory" style="display: flex; align-items: center; gap: 10px; margin-bottom: 50px;">
-      <label for="Category">Үндсэн категори</label>
+    <div v-if="selectedParentCategory" style="display: flex; justify-content: space-between; align-items: center; gap: 50px; margin-bottom: 50px;">
+      <label for="Category" style="font-size: 18px;">Дэд категори</label>
       <div style="margin-right: 10px;">
         <select class="form-control" v-model="selectedCategory1" @change="onCatChange($event)">
           <option v-for="item in categories1" :key="item.name">
@@ -25,7 +25,7 @@
     </div>
 
     <div v-if="selectedCategory1">
-      <div>
+      <div class="register">
         <input class="ctg-input" type="text" v-model="add.name">
         <button class="btn-ctg" @click.prevent="addCategory()">Бүртгэх</button>
       </div>
@@ -36,8 +36,10 @@
         <li style="gap: 30px; display: flex; flex-wrap: wrap;" v-for="cat in categories2" :key="cat.id">
           <span v-if="!cat.isEditable">{{ cat.name }}</span>
           <input v-else v-model="cat.editableName"/>
-          <button class="edit-button" @click="toggleEdit(cat)">{{ cat.isEditable ? 'Хадгалах' : 'Нэр солих' }}</button>
-          <button class="delete-button" @click="deleteCat(cat)">Устгах</button>
+          <span>
+            <button class="edit-button" @click="toggleEdit(cat)">{{ cat.isEditable ? 'Хадгалах' : 'Нэр солих' }}</button>
+            <button class="delete-button" @click="deleteCat(cat)">Устгах</button>
+          </span>
         </li>
       </ul>
     </div>
@@ -148,3 +150,54 @@ export default {
   },
 };
 </script>
+
+
+<style>
+.card_category3 {
+  font-size: 20px;
+}
+
+
+.card_category3 ul li {
+  display: inherit;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+}
+
+.card_category3 ul li span {
+  display: flex;
+  gap: 20px;
+}
+
+.card_category3 .edit-button {
+  border: none;
+  background-color: #3498db;
+  padding: 5px 10px;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.card_category3 .delete-button {
+  border: none;
+  background-color: #db347a;
+  padding: 5px 10px;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.form-control {
+  width: 150px !important;
+  font-size: 17px !important;
+}
+
+.register {
+  display: flex;
+  justify-content: space-between;
+}
+
+.register .btn-ctg {
+  width: 150px;
+  margin-left: 0;
+}
+</style>

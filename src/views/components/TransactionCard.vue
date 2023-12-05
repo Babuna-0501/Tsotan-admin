@@ -17,8 +17,9 @@
       <div class="card h-100 mb-4">
             <div class="card-header pb-0 px-3">
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6" style="display: flex; justify-content: space-between;">
                   <h5 class="mb-0">Захиалгын түүх</h5>
+                  <button class="download-btn" @click="getOrderDownload">Excel татах</button>
                 </div>
               </div>
             </div>
@@ -152,9 +153,34 @@ export default {
       }
     },
 
+    // async fetchData2() {
+    //   try {
+    //     if (this.to) this.query.to = this.formatDate(this.to, 23, 59, 59);
+    //     if (this.from) this.query.from = this.formatDate(this.from, 0, 0, 0);
+
+    //     this.orders = await this.getOrderDownload(this.query);
+    //     this.currentPage = this.query.page;
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // },
+
     async getOrderList(data = {}) {
       try {
         const result =  await axios.get('https://rest.tsotan.mn/order/search', {params: data});
+        console.log(result.data.content);
+        this.totalPages = result.data.totalPages;
+        return result.data.content;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
+    },
+
+    
+    async getOrderDownload(data = {}) {
+      try {
+        const result =  await axios.get('https://rest.tsotan.mn/order/download', {params: data});
         console.log(result.data.content);
         this.totalPages = result.data.totalPages;
         return result.data.content;
@@ -208,6 +234,7 @@ export default {
   mounted() {
     this.query.page = 0;
     this.fetchData();
+    // this.fetchData2();
   },
 };
 </script>
@@ -270,6 +297,22 @@ th {
   background-color: #27a8c2;
   color: #fff;
 }
+
+
+.download-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  background-color: #83b385;
+  color: #ffffff;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
 </style>
 
 
