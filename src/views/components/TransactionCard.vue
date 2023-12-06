@@ -11,16 +11,17 @@
       <input v-model="from" placeholder="Эхлэх огноо"/>
       <input v-model="to" placeholder="Дуусах огноо"/>
       <button type="submit">Хайх</button>
+      <div class="col-md-6" style="display: flex; justify-content: space-between;">
+        <h5 class="mb-0">Захиалгын түүх</h5>
+        <button class="download-btn" @click="download">Excel татах</button>
+      </div>
     </form>
 
     <div class="card h-100 mb-4 mt-5">
       <div class="card h-100 mb-4">
             <div class="card-header pb-0 px-3">
               <div class="row">
-                <div class="col-md-6" style="display: flex; justify-content: space-between;">
-                  <h5 class="mb-0">Захиалгын түүх</h5>
-                  <button class="download-btn" @click="getOrderDownload">Excel татах</button>
-                </div>
+
               </div>
             </div>
             <div class="card-body pt-4 p-3">
@@ -108,9 +109,9 @@ export default {
         maxPrice: null,
         from: null,
         to: null,
-        page: 0,
-        size: 20,
       },
+      page: 0,
+      size: 20,
       from: null,
       to: null,
       totalPages: 0,
@@ -124,7 +125,7 @@ export default {
       return this.orders;
     },
     currentPage() {
-      return this.query.page + 1;
+      return this.page + 1;
     },
 
     getTotalPage() {
@@ -146,24 +147,13 @@ export default {
         if (this.to) this.query.to = this.formatDate(this.to, 23, 59, 59);
         if (this.from) this.query.from = this.formatDate(this.from, 0, 0, 0);
 
-        this.orders = await this.getOrderList(this.query);
-        this.currentPage = this.query.page;
+        this.orders = await this.getOrderList({...this.query, ...this.page, ...this.size});
+        this.currentPage = this.page;
       } catch (error) {
         console.error(error);
       }
     },
 
-    // async fetchData2() {
-    //   try {
-    //     if (this.to) this.query.to = this.formatDate(this.to, 23, 59, 59);
-    //     if (this.from) this.query.from = this.formatDate(this.from, 0, 0, 0);
-
-    //     this.orders = await this.getOrderDownload(this.query);
-    //     this.currentPage = this.query.page;
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // },
 
     async getOrderList(data = {}) {
       try {
@@ -178,9 +168,9 @@ export default {
     },
 
     
-    async getOrderDownload(data = {}) {
+    async download() {
       try {
-        const result =  await axios.get('https://rest.tsotan.mn/order/download', {params: data});
+        const result =  await axios.get('https://rest.tsotan.mn/order/download', {params: this.query});
         console.log(result.data.content);
         this.totalPages = result.data.totalPages;
         return result.data.content;
@@ -216,23 +206,23 @@ export default {
     },
     prevPage() {
       if (this.currentPage > 1) {
-        this.query.page = this.currentPage - 2;
+        this.page = this.currentPage - 2;
         this.fetchData();
       }
     },
     nextPage() {
       if (this.currentPage < this.totalPages) {
-        this.query.page = this.currentPage;
+        this.page = this.currentPage;
         this.fetchData();
       }
     },
     async search() {
-      this.query.page = 0;
+      this.page = 0;
       await this.fetchData();
     },
   },
   mounted() {
-    this.query.page = 0;
+    this.page = 0;
     this.fetchData();
     // this.fetchData2();
   },

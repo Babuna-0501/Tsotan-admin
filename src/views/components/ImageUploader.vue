@@ -42,7 +42,7 @@ export default {
     async fetchData() {
       console.log('fetch data')
       try {
-        const result = await axios.get('http://localhost:8443/banner/list', {
+        const result = await axios.get('https://rest.tsotan.mn/banner/list', {
           params: { type: 'slider' }
         });
         this.banner1 = result.data[0] || { url: null };
@@ -105,7 +105,7 @@ export default {
           type: 'slider',
           url: this[`imageUrl${index}`],
         };
-        const result = await axios.post(`http://localhost:8443/banner/update/${id}`, updateDTO);
+        const result = await axios.post(`https://rest.tsotan.mn/banner/update/${id}`, updateDTO);
         this[`banner${index}`] = result.data;
         this.imageUrl1 = null;
         this.imageUrl2 = null;

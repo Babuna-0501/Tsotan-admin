@@ -30,7 +30,7 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const result = await axios.get('http://localhost:8443/banner/list', {
+        const result = await axios.get('https://rest.tsotan.mn/banner/list', {
           params: { type: 'monthly' }
         });
         this.banner = result.data[0] || { url: null };
@@ -86,7 +86,7 @@ export default {
           type: 'monthly',
           url: this.imageUrl,
         };
-        const result = await axios.post(`http://localhost:8443/banner/update/${id}`, updateDTO);
+        const result = await axios.post(`https://rest.tsotan.mn/banner/update/${id}`, updateDTO);
         this.banner= result.data;
         this.imageUrl = null;
       } catch (error) {
