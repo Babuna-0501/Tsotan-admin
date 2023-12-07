@@ -170,10 +170,16 @@ export default {
     
     async download() {
       try {
-        const result =  await axios.get('https://rest.tsotan.mn/order/download', {params: this.query});
-        console.log(result.data.content);
-        this.totalPages = result.data.totalPages;
-        return result.data.content;
+        const constructedURL = 'https://rest.tsotan.mn/order/download/?' +
+            Object.entries(this.query)
+                .filter(([_key, value]) => {
+                  console.info('_key:', _key);
+                  return value !== null;
+                })
+                .map(([param, value]) => `${param}=${encodeURIComponent(value)}`)
+                .join('&');
+
+        window.location.href = constructedURL;
       } catch (error) {
         console.error(error);
         throw error;
