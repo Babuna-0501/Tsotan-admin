@@ -1,16 +1,16 @@
 <template>
-  <div class="row">
-    <div class="col-xl-6">
-      <img v-if="!updateImage1" :src="imageUrl1 || banner1.url" alt="Banner 1" class="shadow-sm w-100 border-radius-lg" />
-      <img v-if="updateImage1" :src="imageUrl1" alt="Updated Banner 1" class="shadow-sm w-100 border-radius-lg" />
+  <div class="row imageWrapper">
+    <div class="col-xl-6 imgC">
+      <img v-if="!updateImage1" :src="imageUrl1 || banner1.url" alt="Banner 1" class="shadow-sm border-radius-lg" />
+      <img v-if="updateImage1" :src="imageUrl1" alt="Updated Banner 1" class="shadow-sm  border-radius-lg" />
       <button @click="updateImage1 = true" v-if="!updateImage1 && !imageUrl1">Update</button>
       <input v-if="updateImage1" id="image1" type="file" ref="image1" @change="onImageChange(1, $event)" />
       <button v-if="imageUrl1" @click="updateBanner(1)">Save</button>
     </div>
 
-    <div class="col-xl-6">
-      <img v-if="!updateImage2" :src="imageUrl2 || banner2.url" alt="Banner 2" class="shadow-sm w-100 border-radius-lg" />
-      <img v-if="updateImage2" :src="imageUrl2" alt="Updated Banner 2" class="shadow-sm w-100 border-radius-lg" />
+    <div class="col-xl-6 imgC">
+      <img v-if="!updateImage2" :src="imageUrl2 || banner2.url" alt="Banner 2" class="shadow-sm border-radius-lg" />
+      <img v-if="updateImage2" :src="imageUrl2" alt="Updated Banner 2" class="shadow-sm border-radius-lg" />
       <button @click="updateImage2 = true" v-if="!updateImage2 && !imageUrl2">Update</button>
       <input v-if="updateImage2" id="image2" type="file" ref="image2" @change="onImageChange(2, $event)" />
       <button v-if="imageUrl2" @click="updateBanner(2)">Save</button>
@@ -118,5 +118,35 @@ export default {
 </script>
 
 <style>
+.imageWrapper {
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    /* flex-direction: column; */
+    padding: 50px;
+}
+
+.imgC {
+  display: flex;
+  flex-direction: column;
+}
+
+.imgC img {
+  width: 500px;
+  height: auto;
+}
+
+.imgC button {
+  background-color: #8093eb; 
+  color: #fff; 
+  padding: 5px; 
+  border: none; 
+  cursor: pointer; 
+  border-radius: 5px;
+  font-size: 13px;
+  width: 80px;
+  justify-content: center;
+  margin-top: 50px;
+}
 
 </style>

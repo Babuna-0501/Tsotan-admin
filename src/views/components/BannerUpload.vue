@@ -1,6 +1,6 @@
 <template>
-  <div class="row">
-    <div class="col-xl-6">
+  <div class="row imageWrapper">
+    <div class="col-xl-6 imgC">
       <img v-if="!updateImage" :src="imageUrl || banner.url" alt="" class="shadow-sm w-100 border-radius-lg" />
       <img v-if="updateImage" :src="imageUrl" alt="" class="shadow-sm w-100 border-radius-lg" />
       <button @click="updateImage = true" v-if="!updateImage && !imageUrl">Update</button>
@@ -98,4 +98,35 @@ export default {
 </script>
 
 <style>
+.imageWrapper {
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    /* flex-direction: column; */
+    padding: 50px;
+}
+
+.imgC {
+  display: flex;
+  flex-direction: column;
+}
+
+.imgC img {
+  width: 500px;
+  height: auto;
+}
+
+.imgC button {
+  background-color: #8093eb; 
+  color: #fff; 
+  padding: 5px; 
+  border: none; 
+  cursor: pointer; 
+  border-radius: 5px;
+  font-size: 13px;
+  width: 80px;
+  justify-content: center;
+  margin-top: 50px;
+}
+
 </style>
