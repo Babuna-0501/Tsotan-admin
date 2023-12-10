@@ -1,6 +1,7 @@
 <template>
   <div class="row imageWrapper">
-    <div class="col-xl-6 imgC">
+    <h2 style="color: #fff;">Home Page Slide солих</h2>
+    <div class="col-xl-6 imgHome">
       <img v-if="!updateImage1" :src="imageUrl1 || banner1.url" alt="Banner 1" class="shadow-sm border-radius-lg" />
       <img v-if="updateImage1" :src="imageUrl1" alt="Updated Banner 1" class="shadow-sm  border-radius-lg" />
       <button @click="updateImage1 = true" v-if="!updateImage1 && !imageUrl1">Update</button>
@@ -8,7 +9,7 @@
       <button v-if="imageUrl1" @click="updateBanner(1)">Save</button>
     </div>
 
-    <div class="col-xl-6 imgC">
+    <div class="col-xl-6 imgHome">
       <img v-if="!updateImage2" :src="imageUrl2 || banner2.url" alt="Banner 2" class="shadow-sm border-radius-lg" />
       <img v-if="updateImage2" :src="imageUrl2" alt="Updated Banner 2" class="shadow-sm border-radius-lg" />
       <button @click="updateImage2 = true" v-if="!updateImage2 && !imageUrl2">Update</button>
@@ -126,17 +127,17 @@ export default {
     padding: 50px;
 }
 
-.imgC {
+.imgHome {
   display: flex;
   flex-direction: column;
 }
 
-.imgC img {
-  width: 500px;
-  height: auto;
+.imgHome img {
+  width: 400px !important;
+  height: 400px !important;
 }
 
-.imgC button {
+.imgHome button {
   background-color: #8093eb; 
   color: #fff; 
   padding: 5px; 
@@ -148,5 +149,6 @@ export default {
   justify-content: center;
   margin-top: 50px;
 }
+
 
 </style>

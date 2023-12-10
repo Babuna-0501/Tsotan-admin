@@ -37,8 +37,8 @@
                     <th>Гүйлгээний утга</th>
                     <th>Төлөв</th>
                     <th>Огноо</th>
-                    <th>Фб</th>
-                    <th>Мэйл</th>
+                    <!-- <th>Фб</th>
+                    <th>Мэйл</th> -->
                     <th>Үйлдэл</th>
                   </tr>
                 </thead>
@@ -46,7 +46,7 @@
 
                   <tr v-for="order in paginatedOrders" :key="order.id">
                     <td>{{ order.id }}</td>
-                    <td>{{ order.phoneNumbers }}</td>
+                    <td>{{ order.phoneNumber }}</td>
                     <td>{{ order.orderedProducts }}</td>
                     <td>{{ order.price }}</td>
                     <td>{{ order.address }}</td>
@@ -54,8 +54,8 @@
                     <td>{{ order.transactionInfo }}</td>
                     <td>{{ getOrderStateText(order.orderState)  }}</td>
                     <td>{{ order.createdAt }}</td>
-                    <td>{{ order.fb }}</td>
-                    <td>{{ order.email }}</td>
+                    <!-- <td>{{ order.fb }}</td>
+                    <td>{{ order.email }}</td> -->
                     <td><dropdown-button :order-id="order.id" @fetch="fetchData" class="mode" style="border: none;"></dropdown-button></td>
                   </tr>
                 </tbody>

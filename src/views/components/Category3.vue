@@ -186,10 +186,10 @@ export default {
   color: #fff;
 }
 
-.form-control {
+/* .form-control {
   width: 150px !important;
   font-size: 17px !important;
-}
+} */
 
 .register {
   display: flex;

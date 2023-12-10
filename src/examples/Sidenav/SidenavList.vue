@@ -40,7 +40,7 @@
           </template>
         </sidenav-item>
       </li>
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <sidenav-item
           url="/category"
           :class="getRoute() === 'categoryAdd' ? 'active' : ''"
@@ -52,7 +52,7 @@
             ></i>
           </template>
         </sidenav-item>
-      </li>
+      </li> -->
       <li class="nav-item">
         <sidenav-item
           url="/order"

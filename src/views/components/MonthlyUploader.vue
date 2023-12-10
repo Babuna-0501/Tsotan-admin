@@ -1,11 +1,20 @@
 <template>
   <div class="row imageWrapper">
+    <h2 style="color: #fff;">Сарын онцлох бараа солих</h2>
     <div class="col-xl-6 imgC">
-      <img v-if="!updateImage" :src="imageUrl || banner.url" alt="" class="shadow-sm w-100 border-radius-lg" />
-      <img v-if="updateImage" :src="imageUrl" alt="" class="shadow-sm w-100 border-radius-lg" />
-      <button @click="updateImage = true" v-if="!updateImage && !imageUrl">Update</button>
-      <input v-if="updateImage" id="image" type="file" ref="image" @change="onImageChange($event)" />
-      <button v-if="imageUrl" @click="updateBanner">Save</button>
+      <img v-if="!updateImage1" :src="imageUrl1 || banner1.url" alt="Banner 1" class="shadow-sm border-radius-lg" />
+      <img v-if="updateImage1" :src="imageUrl1" alt="Updated Banner 1" class="shadow-sm  border-radius-lg" />
+      <button @click="updateImage1 = true" v-if="!updateImage1 && !imageUrl1">Update</button>
+      <input v-if="updateImage1" id="image1" type="file" ref="image1" @change="onImageChange(1, $event)" />
+      <button v-if="imageUrl1" @click="updateBanner(1)">Save</button>
+    </div>
+
+    <div class="col-xl-6 imgC">
+      <img v-if="!updateImage2" :src="imageUrl2 || banner2.url" alt="Banner 2" class="shadow-sm border-radius-lg" />
+      <img v-if="updateImage2" :src="imageUrl2" alt="Updated Banner 2" class="shadow-sm border-radius-lg" />
+      <button @click="updateImage2 = true" v-if="!updateImage2 && !imageUrl2">Update</button>
+      <input v-if="updateImage2" id="image2" type="file" ref="image2" @change="onImageChange(2, $event)" />
+      <button v-if="imageUrl2" @click="updateBanner(2)">Save</button>
     </div>
   </div>
 </template>
@@ -17,11 +26,14 @@ import axios from "axios";
 export default {
   data() {
     return {
-      banner: '',
-      imageUrl: null,
+      banner1: '',
+      banner2: '',
+      imageUrl1: null,
+      imageUrl2: null,
       file: null,
       bucketName: 'tsotanmn',
-      updateImage: false
+      updateImage1: false,
+      updateImage2: false,
     };
   },
   mounted() {
@@ -33,7 +45,8 @@ export default {
         const result = await axios.get('https://rest.tsotan.mn/banner/list', {
           params: { type: 'monthly' }
         });
-        this.banner = result.data[0] || { url: null };
+        this.banner1 = result.data[0] || { url: null };
+        this.banner2 = result.data[1] || { url: null };
         console.log(result.data);
       } catch (error) {
         console.error(error);
@@ -60,35 +73,42 @@ export default {
       });
     },
 
-    async onImageChange(event) {
+    async onImageChange(index, event) {
       console.log('update image is called')
       if (!event || !event.target) {
         console.error('Invalid event object:', event);
         return;
       }
+
       const file = event.target.files[0];
+      const updateImageKey = `updateImage${index}`;
+      const imageUrlKey = `imageUrl${index}`;
+
       if (file) {
         try {
           const fileName = await this.uploadPhoto(file, this.bucketName);
-          this.imageUrl = `https://${this.bucketName}.s3.ap-southeast-1.amazonaws.com/${fileName}`;
-          this.updateImage = false;
+          this[imageUrlKey] = `https://${this.bucketName}.s3.ap-southeast-1.amazonaws.com/${fileName}`;
+          console.log(this.imageUrl1);
+          this[updateImageKey] = false;
         } catch (error) {
           console.error('Error updating image:', error);
         }
       }
     },
 
-    async updateBanner() {
+    async updateBanner(index) {
       try {
-        const id = this.banner.id;
+        const banner = this[`banner${index}`];
+        const id = banner.id;
         console.log(id);
         const updateDTO = {
           type: 'monthly',
-          url: this.imageUrl,
+          url: this[`imageUrl${index}`],
         };
         const result = await axios.post(`https://rest.tsotan.mn/banner/update/${id}`, updateDTO);
-        this.banner= result.data;
-        this.imageUrl = null;
+        this[`banner${index}`] = result.data;
+        this.imageUrl1 = null;
+        this.imageUrl2 = null;
       } catch (error) {
         console.error(error);
       }
@@ -100,7 +120,7 @@ export default {
 <style>
 .imageWrapper {
   display: flex;
-    justify-content: center;
+    justify-content: baseline;
     align-items: center;
     /* flex-direction: column; */
     padding: 50px;
@@ -112,8 +132,8 @@ export default {
 }
 
 .imgC img {
-  width: 500px;
-  height: auto;
+  width: auto !important;
+  height: 400px !important;
 }
 
 .imgC button {

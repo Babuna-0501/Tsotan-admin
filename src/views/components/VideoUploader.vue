@@ -1,10 +1,13 @@
 <template>
   <div class="row">
-    <div class="col-xl-6">
-
-      <video width="320" height="240" controls @error="handleVideoError">
-        <source :src="banner.url" type="video/mp4">
-      </video>
+    <div class="col-xl-6 videoWrapper">
+        <iframe
+          width="560"
+          height="315"
+          :src="banner.url"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
       <button @click="updateVideo = true" v-if="!updateVideo && !videoUrl">Update</button>
       <input v-if="updateVideo" class="ctg-input" type="text" v-model="videoUrl">
       <button v-if="videoUrl" @click="updateBanner">Save</button>
@@ -34,6 +37,7 @@ export default {
           params: {type: 'video'}
         });
         this.banner = result.data[0] || {url: null};
+        console.log(this.banner.url);
       } catch (error) {
         console.error(error);
       }
@@ -63,4 +67,21 @@ export default {
 </script>
 
 <style>
+.videoWrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 50px !important;
+  gap: 20px
+}
+
+.videoWrapper button{
+  background-color: #8093eb; 
+  color: #fff; 
+  padding: 5px; 
+  border: none; 
+  cursor: pointer; 
+  border-radius: 5px;
+  font-size: 13px;
+  width: 80px;
+}
 </style>

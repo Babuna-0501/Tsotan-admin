@@ -1,6 +1,7 @@
 <template>
   <div class="row imageWrapper">
-    <div class="col-xl-6 imgC">
+    <h2 style="color: #fff;">Bottom banner солих</h2>
+    <div class="col-xl-6 imgBtm">
       <img v-if="!updateImage" :src="imageUrl || banner.url" alt="" class="shadow-sm w-100 border-radius-lg" />
       <img v-if="updateImage" :src="imageUrl" alt="" class="shadow-sm w-100 border-radius-lg" />
       <button @click="updateImage = true" v-if="!updateImage && !imageUrl">Update</button>
@@ -106,17 +107,17 @@ export default {
     padding: 50px;
 }
 
-.imgC {
+.imgBtm {
   display: flex;
   flex-direction: column;
 }
 
-.imgC img {
-  width: 500px;
-  height: auto;
+.imgBtm img {
+  width: 100% !important;
+  height: auto !important;
 }
 
-.imgC button {
+.imgBtm button {
   background-color: #8093eb; 
   color: #fff; 
   padding: 5px; 
