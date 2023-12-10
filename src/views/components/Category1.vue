@@ -1,6 +1,11 @@
 <template>
   <div class="card h-100 mb-4 p-5 w-50 card_wrapper">
     <h2>Үндсэн категори</h2>
+    <div>
+      <input class="ctg-input" type="text" v-model="add.name">
+      <button class="btn-ctg" @click.prevent="addCategory()">Бүртгэх</button>
+    </div>
+
     <ul style="display: flex; gap: 40px; flex-direction: column; margin-top: 50px;">
       <li style="gap: 30px; display: flex; flex-wrap: wrap;" v-for="cat in categories" :key="cat.id">
         <span v-if="!cat.isEditable">{{ cat.name }}</span>
@@ -11,6 +16,7 @@
         </span>
       </li>
     </ul>
+
   </div>
 </template>
 
@@ -27,6 +33,10 @@ export default {
   data() {
     return {
       categories: [],
+      add: {
+        parentId: 0,
+        name: ''
+      },
     };
   },
   methods: {
@@ -37,6 +47,23 @@ export default {
         category.isEditable = false;
         category.editableName = category.name;
       });
+    },
+    async addCategory() {
+      if (this.add.name) {
+        const categoryDTO = {
+          'name': this.add.name,
+          'parentId': this.add.parentId,
+        }
+        try {
+          this.isLoading = true;
+          await api.addCategory(categoryDTO);
+          await this.fetch(this.add.parentId);
+        } catch (error) {
+          console.log(error)
+        }
+        this.isLoading = false;
+        this.add.name = '';
+      }
     },
     async deleteCat(cat) {
       try {
