@@ -1,88 +1,63 @@
 <template>
-    <div class="video-uploader">
-      <input type="file" @change="uploadVideo" accept="video/*" />
-      <button @click="clearVideo">Устгах</button>
-      <video v-if="videoUrl" controls>
-        <source :src="videoUrl" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        videoUrl: null,
-        videoFile: null,
-      };
-    },
-    methods: {
-      uploadVideo(event) {
-        const file = event.target.files[0];
-        if (file) {
-          this.videoFile = file;
-          this.videoUrl = URL.createObjectURL(file);
-        }
-      },
-      clearVideo() {
-        this.videoUrl = null;
-        this.videoFile = null;
-      },
-    },
-  };
-  </script>
-  <style>
-  .video-uploader {
-    text-align: center;
-    margin: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 25px;
-  }
-  
-  
-  .video-uploader label.upload-button {
-    background-color: #007BFF;
-    color: #fff;
-    padding: 10px 20px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .video-uploader label.upload-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .video-uploader video {
-    width: 100%;
-    max-height: 300px;
-    margin-top: 10px;
-  }
+  <div class="row">
+    <div class="col-xl-6">
 
-  .video-uploader button {
-    width: 150px;
-  background-color: #dc3545;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  }
-  
-  .video-uploader button.clear-button {
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  .video-uploader button.clear-button:hover {
-    background-color: #a61c29;
-  }
-  </style>
-  
+      <video width="320" height="240">
+        <source :src="banner.url" type="video/mp4">
+      </video>
+      <button @click="updateVideo = true" v-if="!updateVideo && !videoUrl">Update</button>
+      <input v-if="updateVideo" class="ctg-input" type="text" v-model="videoUrl">
+      <button v-if="videoUrl" @click="updateBanner">Save</button>
+    </div>
+  </div>
+</template>
+
+<script>
+
+import axios from "axios";
+
+export default {
+  data() {
+    return {
+      banner: '',
+      videoUrl: null,
+      updateVideo: false
+    };
+  },
+  mounted() {
+    this.fetchData();
+  },
+  methods: {
+    async fetchData() {
+      try {
+        const result = await axios.get('https://rest.tsotan.mn/banner/list', {
+          params: {type: 'video'}
+        });
+        this.banner = result.data[0] || {url: null};
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async updateBanner() {
+      try {
+        const id = this.banner.id;
+        console.log(id);
+        const updateDTO = {
+          type: 'video',
+          url: this.videoUrl,
+        };
+        const result = await axios.post(`https://rest.tsotan.mn/banner/update/${id}`, updateDTO);
+        this.banner = result.data;
+        this.videoUrl = null;
+        this.updateVideo = false;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
+};
+</script>
+
+<style>
+</style>
