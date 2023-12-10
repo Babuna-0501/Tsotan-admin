@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-xl-6">
 
-      <video width="320" height="240">
+      <video width="320" height="240" controls @error="handleVideoError">
         <source :src="banner.url" type="video/mp4">
       </video>
       <button @click="updateVideo = true" v-if="!updateVideo && !videoUrl">Update</button>
@@ -54,6 +54,9 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    handleVideoError() {
+      console.error('video:', this.banner.url);
     },
   },
 };
