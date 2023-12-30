@@ -244,6 +244,7 @@ export default {
         isSpecial: ''
       },
       isLoading: false,
+      bucketName: 'tsotanmn',
       // isClickable: false
     };
   },
@@ -311,32 +312,28 @@ export default {
     },
     onImageChange1(event) {
       const file = event.target.files[0];
-      const bucketName = 'tsotan';
-      const fileName = this.uploadPhoto(file, bucketName);
-      this.product.image[0] = "https://" + bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
+      const fileName = this.uploadPhoto(file, this.bucketName);
+      this.product.image[0] = "https://" + this.bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
       console.log("img1 change: " + this.product.image[0])
     },
     onImageChange2(event) {
       const file = event.target.files[0];
-      const bucketName = 'tsotan';
-      const fileName = this.uploadPhoto(file, bucketName);
-      this.product.image[1] = "https://" + bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
+      const fileName = this.uploadPhoto(file, this.bucketName);
+      this.product.image[1] = "https://" + this.bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
       console.log("img2 change: " + this.product.image[1])
     },
 
     onImageChange3(event) {
       const file = event.target.files[0];
-      const bucketName = 'tsotan';
-      const fileName = this.uploadPhoto(file, bucketName);
-      this.product.image[2] = "https://" + bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
+      const fileName = this.uploadPhoto(file, this.bucketName);
+      this.product.image[2] = "https://" + this.bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
       console.log("img3 change: " + this.product.image[2])
     },
 
     onImageChange4(event) {
       const file = event.target.files[0];
-      const bucketName = 'tsotan';
-      const fileName = this.uploadPhoto(file, bucketName);
-      this.product.image[3] = "https://" + bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
+      const fileName = this.uploadPhoto(file, this.bucketName);
+      this.product.image[3] = "https://" + this.bucketName + ".s3.ap-southeast-1.amazonaws.com/" + fileName;
       console.log("img4 change: " + this.product.image[3])
     },
 
