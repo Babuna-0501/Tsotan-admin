@@ -8,34 +8,15 @@ export default {
 
 
     async addCategory(data) {
-        console.log(token);
-
-      return axios.post(`${url}/category/create`, data
-          , {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            }
-        });
-
+      return axios.post(`${url}/category/create`, data);
     },
 
     async createProduct(data) {
-        return axios.post(`${url}/product/create`, data, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-        });
+        return axios.post(`${url}/product/create`, data);
     },
 
     async updateProduct(id, data) {
-        return axios.post(`${url}/product/update/${id}`, data, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-        });
+        return axios.post(`${url}/product/update/${id}`, data);
     },
 
     async getProductList(id) {
@@ -59,12 +40,7 @@ export default {
     },
 
     async deleteProduct(id) {
-        return axios.delete(`${url}/product/delete/${id}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-        });
+        return axios.delete(`${url}/product/delete/${id}`);
     },
 
     async getCategories(){
