@@ -2,8 +2,7 @@ import axios from 'axios';
 
 const url = "https://rest.tsotan.mn";
 // const url = "http://localhost:8443"
-//
-const token = localStorage.getItem('jwtToken');
+
 export default {
 
 
